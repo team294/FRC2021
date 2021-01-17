@@ -44,8 +44,8 @@ public class TrajectoryTest {
 				DriveConstants.MAX_VOLTAGE_IN_TRAJECTORY);
 
 			// Create config for trajectory
-			TrajectoryConfig config = new TrajectoryConfig(DriveConstants.kMaxSpeedMetersPerSecond * 0.6,
-				DriveConstants.kMaxAccelerationMetersPerSecondSquared * 0.6)
+			TrajectoryConfig config = new TrajectoryConfig(DriveConstants.kMaxSpeedMetersPerSecond * 0.4,
+				DriveConstants.kMaxAccelerationMetersPerSecondSquared * 0.4)
 				.setKinematics(driveKinematics)
 				.addConstraint(autoVoltageConstraint)
 				.setReversed(false);			// Set to true if robot is running backwards
@@ -64,7 +64,7 @@ public class TrajectoryTest {
 					// new Translation2d(1.06, 0.44) 
 				),
 				// new Pose2d(3, 0, new Rotation2d(0.0)), config);
-				new Pose2d(3.0, 0, new Rotation2d(Math.toRadians(0.0))), config);
+				new Pose2d(6.0, 0, new Rotation2d(Math.toRadians(0.0))), config);
 
 			// debug logging
 			TrajectoryUtil.dumpTrajectory(trajectory, log);
