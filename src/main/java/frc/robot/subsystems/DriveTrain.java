@@ -69,7 +69,7 @@ public class DriveTrain extends SubsystemBase {
       } else {
         gyro = new AHRS(SerialPort.Port.kUSB);
       }
-      gyro.zeroYaw();
+      // gyro.zeroYaw();   // *** Do not zero the gyro hardware!  The hardware zeros asynchronously from this thread, so an immediate read-back of the gyro may not yet be zeroed.
 		} catch (RuntimeException ex) {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
     }
