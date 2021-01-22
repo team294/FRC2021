@@ -186,6 +186,9 @@ public class RobotContainer {
     SmartDashboard.putData("Drive Trajectory Absolute", new DriveFollowTrajectory(CoordType.kAbsolute, TrajectoryTest.calcTrajectory(log), driveTrain, log)
         .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
 
+    // Auto Nav
+    SmartDashboard.putData("AutoNav Bounce Path", new AutoNavBouncePath(driveTrain, log));
+
     // auto selection widget
     autoChooser.setDefaultOption("ShootBackup", AutoSelection.SHOOT_BACKUP);
     autoChooser.addOption("OpponentTrenchPickup", AutoSelection.OPPONENT_TRENCH_PICKUP);
