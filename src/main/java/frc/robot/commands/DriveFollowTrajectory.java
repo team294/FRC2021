@@ -110,7 +110,7 @@ public class DriveFollowTrajectory extends CommandBase {
   * is left to the user, since it is not appropriate for paths with nonstationary endstates.
   *
   * 
-  * @param trajectory      The trajectory to follow.
+  * @param trajectory      The trajectory to follow.flo
   * @param driveTrain      The driveTrain subsystem to be controlled.
   * @param log             File for logging
   */

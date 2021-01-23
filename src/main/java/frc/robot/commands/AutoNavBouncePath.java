@@ -24,8 +24,12 @@ public class AutoNavBouncePath extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(
+
+      new DriveResetPose(0.762, 2.286, 0.0, driveTrain, log),
+
       new DriveFollowTrajectory(CoordType.kAbsolute, TrajectoryBounceSToA3.calcTrajectory(log), false, PIDType.kWPILib, driveTrain, log) 
-          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
+          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)), // Might not need to come to a full stop,
+                                                                 // TODO test 2 trajectories back to back w/out stopping
 
       new DriveFollowTrajectory(CoordType.kAbsolute, TrajectoryBounceA3ToA6.calcTrajectory(log), false, PIDType.kWPILib, driveTrain, log) 
           .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
