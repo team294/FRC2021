@@ -28,7 +28,7 @@ public class TrajectoryBounceA3ToA6 {
 	
     	try {
 
-			log.writeLogEcho(true, "TrajectoryGeneration", "Test", 
+			log.writeLogEcho(true, "TrajectoryGeneration", "BounceA3ToA6", 
 				"trackWidth",DriveConstants.TRACK_WIDTH,
 				"maxVoltage", DriveConstants.MAX_VOLTAGE_IN_TRAJECTORY, 
 				"kS", DriveConstants.kS, 

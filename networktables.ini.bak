@@ -1,0 +1,26 @@
+[NetworkTables Storage 3.0]
+string "/Preferences/.type"="RobotPreferences"
+double "/Preferences/Drive.TrackWidth"=0.9
+double "/Preferences/Drive.kAAngular"=0.00015
+double "/Preferences/Drive.kALinear"=0.025
+double "/Preferences/Drive.kAngLinear"=0.03
+double "/Preferences/Drive.kDAngular"=0
+double "/Preferences/Drive.kDLinear"=0
+double "/Preferences/Drive.kIAngular"=0.01
+double "/Preferences/Drive.kILinear"=0
+double "/Preferences/Drive.kMaxAccelerationMPSS"=3.8
+double "/Preferences/Drive.kMaxAngularAccelerationDegSS"=200
+double "/Preferences/Drive.kMaxAngularVelocityDegS"=1125
+double "/Preferences/Drive.kMaxSpeedMPS"=5.22
+double "/Preferences/Drive.kPAngular"=0.001
+double "/Preferences/Drive.kPLinear"=0.28
+double "/Preferences/Drive.kSAngular"=0.056
+double "/Preferences/Drive.kSLinear"=0.024
+double "/Preferences/Drive.kVAngular"=0.00108
+double "/Preferences/Drive.kVLinear"=0.187
+double "/Preferences/Drive.tLagAngular"=0.02
+double "/Preferences/Drive.ticksPerInch"=1103.9
+boolean "/Preferences/Limelight.takeSnapshots"=true
+boolean "/Preferences/problemExists"=true
+string "/Preferences/problemSubsystem"="LimeLight"
+boolean "/Preferences/prototypeBot"=false

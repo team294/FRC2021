@@ -28,7 +28,7 @@ public class TrajectoryCurveTest {
 	
     	try {
 
-			log.writeLogEcho(true, "TrajectoryGeneration", "Test", 
+			log.writeLogEcho(true, "TrajectoryGeneration", "CurveTest", 
 				"trackWidth",DriveConstants.TRACK_WIDTH,
 				"maxVoltage", DriveConstants.MAX_VOLTAGE_IN_TRAJECTORY, 
 				"kS", DriveConstants.kS, 
