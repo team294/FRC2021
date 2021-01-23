@@ -16,7 +16,7 @@ import frc.robot.Constants.DriveConstants;
 /**
  * Trajectory methods for going to the trench from the center position
  */
-public class TrajectoryTest {
+public class TrajectoryBounceA3ToA6 {
 
 	/**
 	* Calculate the trajectory used to get the balls from the trench starting from the center
@@ -28,7 +28,7 @@ public class TrajectoryTest {
 	
     	try {
 
-			log.writeLogEcho(true, "TrajectoryGeneration", "Test", 
+			log.writeLogEcho(true, "TrajectoryGeneration", "BounceA3ToA6", 
 				"trackWidth",DriveConstants.TRACK_WIDTH,
 				"maxVoltage", DriveConstants.MAX_VOLTAGE_IN_TRAJECTORY, 
 				"kS", DriveConstants.kS, 
@@ -48,7 +48,7 @@ public class TrajectoryTest {
 				DriveConstants.kMaxAccelerationMetersPerSecondSquared * 0.4)
 				.setKinematics(driveKinematics)
 				.addConstraint(autoVoltageConstraint)
-				.setReversed(false);			// Set to true if robot is running backwards
+				.setReversed(true);			// Set to true if robot is running backwards
 
 			// drive from line to trench (assumes starting directly in front and facing target)		  
 			// the trajectory to follow (all units in meters)
@@ -58,13 +58,12 @@ public class TrajectoryTest {
 			// firstBallX = -3.1
 			// distance between first and last ball = 1.82
 			trajectory = TrajectoryGenerator.generateTrajectory(
-				new Pose2d(0, 0, new Rotation2d(0.0)),
+				new Pose2d(2.286, 3.81, new Rotation2d(Math.toRadians(90.0))),
 				List.of(
-					//new Translation2d(-0.5, -0.5),
-					// new Translation2d(1.06, 0.44) 
+					new Translation2d(2.667, 1.905),
+					new Translation2d(3.81, 0.762)
 				),
-				// new Pose2d(3, 0, new Rotation2d(0.0)), config);
-				new Pose2d(6.0, 0, new Rotation2d(Math.toRadians(0.0))), config);
+				new Pose2d(4.572, 3.81, new Rotation2d(Math.toRadians(-90.0))), config);
 
 			// debug logging
 			TrajectoryUtil.dumpTrajectory(trajectory, log);

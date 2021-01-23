@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 
 import static frc.robot.utilities.StringUtil.*;
 
@@ -41,15 +42,18 @@ public class FileLog {
 	public final int LIMELIGHT_CYCLE = 9;
     
 	/**
-	 * Creates a new log file called "/home/lvuser/logfile.ver.date.time.txt"
+	 * Creates a new log file called "/home/lvuser/logfile.ver.date.time.csv"
+	 * When running a robot simulation on a laptop, the log file is placed in the VSCode project in the "sim" subdirectory
      * @param version Version of robot code (i.e. A1).
 	 */
 	public FileLog(String version) {
-		this("/home/lvuser/logfile", version);
+		// When running on a RoboRio:  Logfile is placed in /home/lvuser/
+		// When running in simulation:  Logfile is placed in the VSCode project in the "sim" subdirectory
+		this(RobotBase.isReal() ? "/home/lvuser/logfile" : "sim\\logfilesim", version);
 	}
 	
 	/**
-	 * Creates a new log file. ".ver.date.time.txt" will automatically be added to the end of the base file name.
+	 * Creates a new log file. ".ver.date.time.csv" will automatically be added to the end of the base file name.
 	 * @param filenameBase Path and name of log file.
      * @param version Version of robot code (i.e. A1).
 	 */

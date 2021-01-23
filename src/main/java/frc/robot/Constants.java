@@ -187,7 +187,7 @@ public final class Constants {
         public static double kVLinear = 0.187; // 0.148 on practice bot, 0.187 on competition bot
         public static double kALinear = 0.025; // 0.025 on practice bot, 0.0184 on competition bot (competition cal=0.0184)
         public static double kSLinear = 0.024; // 0.022 on practice bot, 0.024 on competition bot
-        public static double kPLinear = 0.100; // 0.100 on practice bot, 0.100 on competition bot
+        public static double kPLinear = 0.280; // 0.100 on practice bot, 0.100 on competition bot (tuned for drive straight?) -- 1/20/21 changed to 0.28 on competition bot for trajectory following
         public static double kILinear = 0; // 0.0 on both bot
         public static double kDLinear = 0; // 0.0 on both bot
         public static double kAngLinear = 0.030; // 0.030 on both bots
@@ -197,7 +197,7 @@ public final class Constants {
         public static double kV = kVLinear * compensationVoltage; 
         public static double kA = kALinear * compensationVoltage; 
 
-        public static double TRACK_WIDTH = Units.inchesToMeters(24.93);   // 25.35 on practice bot, 24.93 on competition bot
+        public static double TRACK_WIDTH = 0.9;   // 25.35in on practice bot, 24.93in on competition bot -- 1/20/21 changed to 0.9m on competition bot for tracjectory following
 
         public static void updateDerivedConstants() {
             kS = kSLinear * compensationVoltage; 

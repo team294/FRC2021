@@ -22,6 +22,7 @@ import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.CoordType;
 import frc.robot.Constants.TargetType;
 import frc.robot.commands.*;
+import frc.robot.commands.DriveFollowTrajectory.PIDType;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.*;
 import frc.robot.triggers.*;
@@ -178,10 +179,15 @@ public class RobotContainer {
     SmartDashboard.putData("ZeroGyro", new DriveZeroGyro(driveTrain, log));
     SmartDashboard.putData("ZeroEncoders", new DriveZeroEncoders(driveTrain, log));
     SmartDashboard.putData("ZeroOdometry", new DriveResetPose(0, 0, 0, driveTrain, log));
-    SmartDashboard.putData("DriveTrajectoryRelative", new DriveFollowTrajectory(CoordType.kRelative, TrajectoryTest.calcTrajectory(log), driveTrain, log)
+    SmartDashboard.putData("Drive Trajectory Relative", new DriveFollowTrajectory(CoordType.kRelative, TrajectoryTest.calcTrajectory(log), false, PIDType.kWPILib, driveTrain, log)
         .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
-    SmartDashboard.putData("DriveTrajectoryAbsolute", new DriveFollowTrajectory(CoordType.kAbsolute, TrajectoryTest.calcTrajectory(log), driveTrain, log)
+    SmartDashboard.putData("Drive Trajectory Curve Relative", new DriveFollowTrajectory(CoordType.kRelative, TrajectoryCurveTest.calcTrajectory(log), false, PIDType.kWPILib, driveTrain, log)
         .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
+    SmartDashboard.putData("Drive Trajectory Absolute", new DriveFollowTrajectory(CoordType.kAbsolute, TrajectoryTest.calcTrajectory(log), driveTrain, log)
+        .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
+
+    // Auto Nav
+    SmartDashboard.putData("AutoNav Bounce Path", new AutoNavBouncePath(driveTrain, log));
 
     // auto selection widget
     autoChooser.setDefaultOption("ShootBackup", AutoSelection.SHOOT_BACKUP);
