@@ -189,7 +189,7 @@ public class RobotContainer {
         .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
 
     // Auto Nav
-    SmartDashboard.putData("AutoNav Bounce Path", new AutoNavBouncePath(driveTrain, log));
+    SmartDashboard.putData("AutoNav Bounce Path", new AutoNavBouncePath(trajectoryCache, driveTrain, log));
 
     // auto selection widget
     autoChooser.setDefaultOption("ShootBackup", AutoSelection.SHOOT_BACKUP);
