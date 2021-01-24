@@ -10,6 +10,7 @@ import frc.robot.commands.AutoOwnTrenchPickup;
 import frc.robot.commands.AutoTrussPickup;
 import frc.robot.commands.Wait;
 import frc.robot.subsystems.*;
+import frc.robot.utilities.TrajectoryCache.TrajectoryType;
 
 
 /**
@@ -25,20 +26,14 @@ public class AutoSelection {
 	public static final int SHORT_SHOT = 5;
 	
 
-	private Trajectory[] trajectoryCache = new Trajectory[1];
+	private TrajectoryCache trajectoryCache;
 	
 	/**
 	 * AutoSelection constructor for command group
 	 * Sets up autoPlan widget 
 	 */  	
-	public AutoSelection(FileLog log) {
-		// calc trajectories for later use
-		try {
-			calcTrajectories(log);
-		} catch (Exception e) {
-			log.writeLogEcho(true, "AutoSelect", "exception caught in calcTrajectories",e);
-		}
-		
+	public AutoSelection(TrajectoryCache trajectoryCache, FileLog log) {
+		this.trajectoryCache = trajectoryCache;
 	}
 
 	/**
@@ -53,9 +48,9 @@ public class AutoSelection {
 		Command autonomousCommand = null;
 		Trajectory trajectory;
 
-		if (autoPlan == OPPONENT_TRENCH_PICKUP && trajectoryCache[OPPONENT_TRENCH_PICKUP] != null) {
+		if (autoPlan == OPPONENT_TRENCH_PICKUP && trajectoryCache.cache[TrajectoryType.opponentTrenchPickup.value] != null) {
 			log.writeLogEcho(true, "AutoSelect", "run TrenchFromRight");
-			trajectory = trajectoryCache[OPPONENT_TRENCH_PICKUP];
+			trajectory = trajectoryCache.cache[TrajectoryType.opponentTrenchPickup.value];
 			autonomousCommand = new AutoOpponentTrenchPickup(waitTime, useVision, trajectory, driveTrain, limeLight, log, shooter, feeder, hopper, intake, led);
 		}
 
@@ -90,19 +85,6 @@ public class AutoSelection {
 		}
 
 		return autonomousCommand;
-	}
-
-	/**
-	 * Calculate all the trajectories so they are ready to use before auto period starts
-	 */  
-	private void calcTrajectories(FileLog log) {
-
-		if (trajectoryCache[OPPONENT_TRENCH_PICKUP] == null) {
-			log.writeLogEcho(true, "AutoSelect", "calcTrajectoryOpponentTrenchPickup", "Start");
-			trajectoryCache[OPPONENT_TRENCH_PICKUP] = TrajectoryOpponentTrenchToShoot.calcTrajectory(log);
-			log.writeLogEcho(true, "AutoSelect", "calcTrajectoryOpponentTrenchPickup", "End");
-		}
-
 	}
 
 }
