@@ -197,7 +197,7 @@ public class RobotContainer {
     autoChooser.addOption("TrussPickup", AutoSelection.TRUSS_PICKUP);
     autoChooser.addOption("OwnTrenchPickup", AutoSelection.OWN_TRENCH_PICKUP);
     autoChooser.addOption("ShortShot", AutoSelection.SHORT_SHOT);
-    autoChooser.addOption("ShortShot", AutoSelection.BOUNCE_PATH);
+    autoChooser.addOption("BouncePath", AutoSelection.BOUNCE_PATH);
     SmartDashboard.putData("Autonomous routine", autoChooser);
     SmartDashboard.putNumber("Autonomous delay", 0);
     SmartDashboard.putBoolean("Autonomous use vision", false);
