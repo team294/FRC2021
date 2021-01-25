@@ -14,14 +14,12 @@ import frc.robot.subsystems.*;
 import frc.robot.utilities.*;
 import frc.robot.utilities.TrajectoryCache.TrajectoryType;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class AutoNavBouncePath extends SequentialCommandGroup {
  
-  // start robot infront of opponents trench with the intake facing the trench
-
-  public AutoNavBouncePath(TrajectoryCache trajectoryCache,DriveTrain driveTrain, FileLog log) {
+  /**
+   * Follow the bounce path using trajectories.
+   */
+  public AutoNavBouncePath(TrajectoryCache trajectoryCache, DriveTrain driveTrain, FileLog log) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(

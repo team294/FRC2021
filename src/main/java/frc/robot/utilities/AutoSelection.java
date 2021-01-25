@@ -27,7 +27,6 @@ public class AutoSelection {
 	public static final int SHORT_SHOT = 5;
 	public static final int BOUNCE_PATH = 6;
 	
-
 	private TrajectoryCache trajectoryCache;
 	
 	/**
@@ -41,11 +40,18 @@ public class AutoSelection {
 	/**
 	 * Gets the auto command based upon input from the shuffleboard
 	 * @param waitTime The time to wait before starting the auto routines
-	 * @param driveTrain  The driveTrain that will be passed to the auto command
-	 * @param log The filelog to write the logs to
+	 * @param useVision true = use vision, false = don't use vision
 	 * @param autoPlan The autoplan to run 
+	 * @param driveTrain  The driveTrain that will be passed to the auto command
+	 * @param shooter
+	 * @param feeder
+	 * @param hopper
+	 * @param intake
+	 * @param limeLight
+	 * @param log The filelog to write the logs to
+	 * @param led
 	 * @return the command to run
-	 */  		
+	 */
 	public Command getAutoCommand(double waitTime, boolean useVision, Integer autoPlan, DriveTrain driveTrain, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LimeLight limeLight, FileLog log, LED led) {
 		Command autonomousCommand = null;
 		Trajectory trajectory;
