@@ -25,6 +25,7 @@ import frc.robot.commands.*;
 import frc.robot.commands.DriveFollowTrajectory.PIDType;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.*;
+import frc.robot.utilities.TrajectoryCache.TrajectoryType;
 import frc.robot.triggers.*;
 
 import static frc.robot.Constants.OIConstants.*;
@@ -48,12 +49,14 @@ public class RobotContainer {
   private final DriveTrain driveTrain = new DriveTrain(log, tempCheck);
   private final LimeLight limeLight = new LimeLight(log, led, driveTrain);
 
+  private final TrajectoryCache trajectoryCache = new TrajectoryCache(log);
+  private final AutoSelection autoSelection = new AutoSelection(trajectoryCache, log);
+
   Joystick xboxController = new Joystick(usbXboxController);
   Joystick leftJoystick = new Joystick(usbLeftJoystick);
   Joystick rightJoystick = new Joystick(usbRightJoystick);
   Joystick coPanel = new Joystick(usbCoPanel);
-
-  private AutoSelection autoSelection;
+  
   private SendableChooser<Integer> autoChooser = new SendableChooser<>();
   public double autoDelay;
   public boolean autoUseVision;
@@ -70,8 +73,6 @@ public class RobotContainer {
     configureShuffleboard(); // configure shuffleboard
 
     driveTrain.setDefaultCommand(new DriveWithJoystickArcade(driveTrain, leftJoystick, rightJoystick, log));
-
-    autoSelection = new AutoSelection(log); // initialize auto selection widget
   }
 
   /**
@@ -179,15 +180,15 @@ public class RobotContainer {
     SmartDashboard.putData("ZeroGyro", new DriveZeroGyro(driveTrain, log));
     SmartDashboard.putData("ZeroEncoders", new DriveZeroEncoders(driveTrain, log));
     SmartDashboard.putData("ZeroOdometry", new DriveResetPose(0, 0, 0, driveTrain, log));
-    SmartDashboard.putData("Drive Trajectory Relative", new DriveFollowTrajectory(CoordType.kRelative, TrajectoryTest.calcTrajectory(log), false, PIDType.kWPILib, driveTrain, log)
+    SmartDashboard.putData("Drive Trajectory Relative", new DriveFollowTrajectory(CoordType.kRelative, trajectoryCache.cache[TrajectoryType.test.value], false, PIDType.kWPILib, driveTrain, log)
         .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
-    SmartDashboard.putData("Drive Trajectory Curve Relative", new DriveFollowTrajectory(CoordType.kRelative, TrajectoryCurveTest.calcTrajectory(log), false, PIDType.kWPILib, driveTrain, log)
+    SmartDashboard.putData("Drive Trajectory Curve Relative", new DriveFollowTrajectory(CoordType.kRelative, trajectoryCache.cache[TrajectoryType.testCurve.value], false, PIDType.kWPILib, driveTrain, log)
         .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
-    SmartDashboard.putData("Drive Trajectory Absolute", new DriveFollowTrajectory(CoordType.kAbsolute, TrajectoryTest.calcTrajectory(log), driveTrain, log)
+    SmartDashboard.putData("Drive Trajectory Absolute", new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.test.value], driveTrain, log)
         .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
 
     // Auto Nav
-    SmartDashboard.putData("AutoNav Bounce Path", new AutoNavBouncePath(driveTrain, log));
+    SmartDashboard.putData("AutoNav Bounce Path", new AutoNavBouncePath(trajectoryCache, driveTrain, log));
 
     // auto selection widget
     autoChooser.setDefaultOption("ShootBackup", AutoSelection.SHOOT_BACKUP);
@@ -196,6 +197,7 @@ public class RobotContainer {
     autoChooser.addOption("TrussPickup", AutoSelection.TRUSS_PICKUP);
     autoChooser.addOption("OwnTrenchPickup", AutoSelection.OWN_TRENCH_PICKUP);
     autoChooser.addOption("ShortShot", AutoSelection.SHORT_SHOT);
+    autoChooser.addOption("ShortShot", AutoSelection.BOUNCE_PATH);
     SmartDashboard.putData("Autonomous routine", autoChooser);
     SmartDashboard.putNumber("Autonomous delay", 0);
     SmartDashboard.putBoolean("Autonomous use vision", false);

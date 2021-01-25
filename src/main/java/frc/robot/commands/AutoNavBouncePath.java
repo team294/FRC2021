@@ -12,32 +12,32 @@ import frc.robot.Constants.CoordType;
 import frc.robot.commands.DriveFollowTrajectory.PIDType;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.*;
+import frc.robot.utilities.TrajectoryCache.TrajectoryType;
 
-// NOTE:  Consider using this command inline, rather than writing a subclass.  For more
-// information, see:
-// https://docs.wpilib.org/en/latest/docs/software/commandbased/convenience-features.html
 public class AutoNavBouncePath extends SequentialCommandGroup {
  
-  // start robot infront of opponents trench with the intake facing the trench
-
-  public AutoNavBouncePath(DriveTrain driveTrain, FileLog log) {
+  /**
+   * Follow the bounce path using trajectories.
+   */
+  public AutoNavBouncePath(TrajectoryCache trajectoryCache, DriveTrain driveTrain, FileLog log) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(
 
       new DriveResetPose(0.762, 2.286, 0.0, driveTrain, log),
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, TrajectoryBounceSToA3.calcTrajectory(log), false, PIDType.kWPILib, driveTrain, log) 
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceSToA3.value], false, PIDType.kWPILib, 
+          driveTrain, log) 
           .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)), // Might not need to come to a full stop,
                                                                  // TODO test 2 trajectories back to back w/out stopping
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, TrajectoryBounceA3ToA6.calcTrajectory(log), false, PIDType.kWPILib, driveTrain, log) 
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA3ToA6.value], false, PIDType.kWPILib, driveTrain, log) 
           .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, TrajectoryBounceA6ToA9.calcTrajectory(log), false, PIDType.kWPILib, driveTrain, log) 
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA6ToA9.value], false, PIDType.kWPILib, driveTrain, log) 
           .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, TrajectoryBounceA9ToF.calcTrajectory(log), false, PIDType.kWPILib, driveTrain, log) 
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA9ToF.value], false, PIDType.kWPILib, driveTrain, log) 
           .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false))
     );
   }
