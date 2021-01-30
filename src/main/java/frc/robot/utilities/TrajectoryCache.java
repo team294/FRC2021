@@ -34,7 +34,11 @@ public class TrajectoryCache {
         bounceSToA3(3),
         bounceA3ToA6(4),
         bounceA6ToA9(5),
-        bounceA9ToF(6);
+        bounceA9ToF(6),
+        galacticRedA(7),
+        galacticBlueA(8),
+        galacticRedB(9),
+        galacticBlueB(10);
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;
@@ -97,6 +101,38 @@ public class TrajectoryCache {
             new Pose2d(6.858, 3.81, new Rotation2d(Math.toRadians(90.0))),
             List.of(),
             new Pose2d(8.382, 2.286, new Rotation2d(Math.toRadians(180.0)))
+        );
+
+        cache[TrajectoryType.galacticRedA.value] = calcTrajectory("Galactic Red A", 0.4, 0.4, true, 
+            new Pose2d(0.762, 3.81, new Rotation2d(Math.toRadians(-45.0))),
+            List.of(new Translation2d(2.286, 2.286),
+                    new Translation2d(3.81, 1.524),
+                    new Translation2d(4.572, 3.81)),
+            new Pose2d(8.382, 3.81, new Rotation2d(Math.toRadians(0.0)))
+        );
+
+        cache[TrajectoryType.galacticBlueA.value] = calcTrajectory("Galactic Blue A", 0.4, 0.4, true, 
+            new Pose2d(0.762, 3.81, new Rotation2d(Math.toRadians(0.0))),
+            List.of(new Translation2d(4.572, 0.762),
+                    new Translation2d(5.334, 3.048),
+                    new Translation2d(6.858, 2.286)),
+            new Pose2d(8.382, 0.9, new Rotation2d(Math.toRadians(0.0)))
+        );
+
+        cache[TrajectoryType.galacticRedA.value] = calcTrajectory("Galactic Red B", 0.4, 0.4, true, 
+            new Pose2d(0.762, 3.81, new Rotation2d(Math.toRadians(-45.0))),
+            List.of(new Translation2d(2.286, 3.048),
+                    new Translation2d(3.81, 1.524),
+                    new Translation2d(5.334, 3.048)),
+            new Pose2d(8.382, 3.048, new Rotation2d(Math.toRadians(0.0)))
+        );
+
+        cache[TrajectoryType.galacticBlueA.value] = calcTrajectory("Galactic Blue B", 0.4, 0.4, true, 
+            new Pose2d(0.762, 3.81, new Rotation2d(Math.toRadians(0.0))),
+            List.of(new Translation2d(4.572, 1.524),
+                    new Translation2d(6.096, 3.048),
+                    new Translation2d(7.62, 1.524)),
+            new Pose2d(8.382, 0.762, new Rotation2d(Math.toRadians(-45.0)))
         );
     }
 

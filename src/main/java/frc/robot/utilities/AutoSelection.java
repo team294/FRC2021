@@ -2,6 +2,7 @@ package frc.robot.utilities;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import frc.robot.Constants.CoordType;
 import frc.robot.commands.AutoNavBouncePath;
 import frc.robot.commands.AutoOpponentTrenchPickup;
 import frc.robot.commands.AutoShootBackup;
@@ -9,7 +10,9 @@ import frc.robot.commands.AutoShootForward;
 import frc.robot.commands.AutoShortShot;
 import frc.robot.commands.AutoOwnTrenchPickup;
 import frc.robot.commands.AutoTrussPickup;
+import frc.robot.commands.DriveFollowTrajectory;
 import frc.robot.commands.Wait;
+import frc.robot.commands.DriveFollowTrajectory.PIDType;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.TrajectoryCache.TrajectoryType;
 
@@ -26,6 +29,10 @@ public class AutoSelection {
 	public static final int SHOOT_FORWARD = 4;
 	public static final int SHORT_SHOT = 5;
 	public static final int BOUNCE_PATH = 6;
+	public static final int RED_A = 7;
+	public static final int BLUE_A = 8;
+	public static final int RED_B = 9;
+	public static final int BLUE_B = 10;
 	
 	private TrajectoryCache trajectoryCache;
 	
@@ -90,6 +97,30 @@ public class AutoSelection {
 		if (autoPlan == BOUNCE_PATH){
 			log.writeLogEcho(true, "AutoSelect", "run BouncePath");
 			autonomousCommand = new AutoNavBouncePath(trajectoryCache, driveTrain, log);
+		}
+
+		if (autoPlan == RED_A && trajectoryCache.cache[TrajectoryType.galacticRedA.value] != null) {
+			log.writeLogEcho(true, "AutoSelect", "run Galactic Red A");
+			trajectory = trajectoryCache.cache[TrajectoryType.galacticRedA.value];
+			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsolute, trajectory, true, PIDType.kWPILib, driveTrain, log);
+		}
+
+		if (autoPlan == BLUE_A && trajectoryCache.cache[TrajectoryType.galacticBlueA.value] != null) {
+			log.writeLogEcho(true, "AutoSelect", "run Galactic Blue A");
+			trajectory = trajectoryCache.cache[TrajectoryType.galacticBlueA.value];
+			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsolute, trajectory, true, PIDType.kWPILib, driveTrain, log);
+		}
+
+		if (autoPlan == RED_B && trajectoryCache.cache[TrajectoryType.galacticRedB.value] != null) {
+			log.writeLogEcho(true, "AutoSelect", "run Galactic Red B");
+			trajectory = trajectoryCache.cache[TrajectoryType.galacticRedB.value];
+			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsolute, trajectory, true, PIDType.kWPILib, driveTrain, log);
+		}
+
+		if (autoPlan == BLUE_B && trajectoryCache.cache[TrajectoryType.galacticBlueB.value] != null) {
+			log.writeLogEcho(true, "AutoSelect", "run Galactic Blue B");
+			trajectory = trajectoryCache.cache[TrajectoryType.galacticBlueB.value];
+			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsolute, trajectory, true, PIDType.kWPILib, driveTrain, log);
 		}
 
 		if (autonomousCommand == null) {
