@@ -24,7 +24,7 @@ public class AutoGalacticRedA extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     addCommands(
 
-      new DriveResetPose(0.762, 3.81, 0.0, driveTrain, log),
+      new DriveResetPose(0.762, 3.81, -45.0, driveTrain, log),
       
       parallel(
         new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.galacticRedA.value], 
