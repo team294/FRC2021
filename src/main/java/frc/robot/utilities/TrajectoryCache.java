@@ -74,21 +74,23 @@ public class TrajectoryCache {
 
         cache[TrajectoryType.bounceSToA3.value] = calcTrajectory("Bounce S To A3", 0.4, 0.4, false, 
             new Pose2d(0.762, 2.286, new Rotation2d(0.0)),
-            List.of(new Translation2d(1.524, 2.286)),
+            List.of(),
             new Pose2d(2.286, 3.81, new Rotation2d(Math.toRadians(90.0)))
         );
 
         cache[TrajectoryType.bounceA3ToA6.value] = calcTrajectory("Bounce A3 To A6", 0.4, 0.4, true, 
             new Pose2d(2.286, 3.81, new Rotation2d(90.0)),
-            List.of(new Translation2d(2.667, 1.905),
-                    new Translation2d(3.81, 0.762)),
+            List.of(new Translation2d(2.5, 3),
+                    new Translation2d(3, 1.5),
+                    new Translation2d(4, 1),
+                    new Translation2d(4.572, 1.524)),
             new Pose2d(4.572, 3.81, new Rotation2d(Math.toRadians(-90.0)))
         );
 
         cache[TrajectoryType.bounceA6ToA9.value] = calcTrajectory("Bounce A6 To A9", 0.4, 0.4, false, 
             new Pose2d(4.572, 3.81, new Rotation2d(Math.toRadians(-90.0))),
             List.of(new Translation2d(4.572, 1.524),
-                    new Translation2d(5.715, 0.762),
+                    new Translation2d(5.715, 1),
                     new Translation2d(6.858, 1.524)),
             new Pose2d(6.858, 3.81, new Rotation2d(Math.toRadians(90.0)))
         );
