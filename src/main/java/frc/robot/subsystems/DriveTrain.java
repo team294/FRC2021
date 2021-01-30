@@ -69,11 +69,15 @@ public class DriveTrain extends SubsystemBase {
       } else {
         gyro = new AHRS(SerialPort.Port.kUSB);
       }
-      // gyro.zeroYaw();   // *** Do not zero the gyro hardware!  The hardware zeros asynchronously from this thread, so an immediate read-back of the gyro may not yet be zeroed.
+      ahrs = gyro;
+      log.writeLog(true, "Drive", "Init A", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
+      gyro.zeroYaw();   // *** Do not zero the gyro hardware!  The hardware zeros asynchronously from this thread, so an immediate read-back of the gyro may not yet be zeroed.
+      log.writeLog(true, "Drive", "Init B", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
 		} catch (RuntimeException ex) {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
     }
     ahrs = gyro;
+    log.writeLog(true, "Drive", "Init C", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
     
     // configure motors
     leftMotor1 = new WPI_TalonFX(canLeftDriveMotor1);
@@ -139,7 +143,9 @@ public class DriveTrain extends SubsystemBase {
     
     zeroLeftEncoder();
     zeroRightEncoder();
+    log.writeLog(true, "Drive", "Init D", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
     zeroGyroRotation();
+    log.writeLog(true, "Drive", "Init E", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
 
     // Sets initial position to (0,0) facing 0 degrees
     odometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(getGyroRotation()));
@@ -167,7 +173,9 @@ public class DriveTrain extends SubsystemBase {
     SmartDashboard.putNumber("Drive kI Angular", kIAngular);
     SmartDashboard.putNumber("Drive kD Angular", kDAngular);
     SmartDashboard.putNumber("Drive tLag Angular", tLagAngular);
-    
+
+    log.writeLog(true, "Drive", "Init F", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
+
   }
 
   /**
@@ -673,7 +681,7 @@ public class DriveTrain extends SubsystemBase {
       "R1 Temp",rightMotor1.getTemperature(), "R2 Temp",rightMotor2.getTemperature(),
       "Left Inches", getLeftEncoderInches(), "L Vel", getLeftEncoderVelocity(),
       "Right Inches", getRightEncoderInches(), "R Vel", getRightEncoderVelocity(),
-      "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), 
+      "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero,
       "Gyro Velocity", angularVelocity, 
       "Odometry X", translation.getX(), "Odometry Y", translation.getY()
       );
