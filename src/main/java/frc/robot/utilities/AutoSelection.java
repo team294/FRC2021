@@ -3,6 +3,10 @@ package frc.robot.utilities;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import frc.robot.Constants.CoordType;
+import frc.robot.commands.AutoGalacticBlueA;
+import frc.robot.commands.AutoGalacticBlueB;
+import frc.robot.commands.AutoGalacticRedA;
+import frc.robot.commands.AutoGalacticRedB;
 import frc.robot.commands.AutoNavBouncePath;
 import frc.robot.commands.AutoOpponentTrenchPickup;
 import frc.robot.commands.AutoShootBackup;
@@ -101,26 +105,22 @@ public class AutoSelection {
 
 		if (autoPlan == RED_A && trajectoryCache.cache[TrajectoryType.galacticRedA.value] != null) {
 			log.writeLogEcho(true, "AutoSelect", "run Galactic Red A");
-			trajectory = trajectoryCache.cache[TrajectoryType.galacticRedA.value];
-			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsolute, trajectory, true, PIDType.kWPILib, driveTrain, log);
+			autonomousCommand = new AutoGalacticRedA(trajectoryCache, driveTrain, log, intake);
 		}
 
 		if (autoPlan == BLUE_A && trajectoryCache.cache[TrajectoryType.galacticBlueA.value] != null) {
 			log.writeLogEcho(true, "AutoSelect", "run Galactic Blue A");
-			trajectory = trajectoryCache.cache[TrajectoryType.galacticBlueA.value];
-			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsolute, trajectory, true, PIDType.kWPILib, driveTrain, log);
+			autonomousCommand = new AutoGalacticBlueA(trajectoryCache, driveTrain, log, intake);
 		}
 
 		if (autoPlan == RED_B && trajectoryCache.cache[TrajectoryType.galacticRedB.value] != null) {
 			log.writeLogEcho(true, "AutoSelect", "run Galactic Red B");
-			trajectory = trajectoryCache.cache[TrajectoryType.galacticRedB.value];
-			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsolute, trajectory, true, PIDType.kWPILib, driveTrain, log);
+			autonomousCommand = new AutoGalacticRedB(trajectoryCache, driveTrain, log, intake);
 		}
 
 		if (autoPlan == BLUE_B && trajectoryCache.cache[TrajectoryType.galacticBlueB.value] != null) {
 			log.writeLogEcho(true, "AutoSelect", "run Galactic Blue B");
-			trajectory = trajectoryCache.cache[TrajectoryType.galacticBlueB.value];
-			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsolute, trajectory, true, PIDType.kWPILib, driveTrain, log);
+			autonomousCommand = new AutoGalacticBlueB(trajectoryCache, driveTrain, log, intake);
 		}
 
 		if (autonomousCommand == null) {
