@@ -24,7 +24,7 @@ import frc.robot.Constants.DriveConstants;
 public class TrajectoryCache {
     private FileLog log;
    
-    private static int trajectoryCount = 7;
+    private static int trajectoryCount = 18;
     public Trajectory[] cache = new Trajectory[trajectoryCount];
 
     public enum TrajectoryType {
@@ -34,7 +34,18 @@ public class TrajectoryCache {
         bounceSToA3(3),
         bounceA3ToA6(4),
         bounceA6ToA9(5),
-        bounceA9ToF(6);
+        bounceA9ToF(6),
+        filler(7),
+        filler1(8),
+        filler2(9),
+        filler3(10),
+        filler4(11),
+        filler5(12),
+        allBall1(13),
+        allBall2(14),
+        allBall3(15),
+        allBall4(16),
+        allBall5(17);
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;
@@ -97,6 +108,65 @@ public class TrajectoryCache {
             new Pose2d(6.858, 3.81, new Rotation2d(Math.toRadians(90.0))),
             List.of(),
             new Pose2d(8.382, 2.286, new Rotation2d(Math.toRadians(180.0)))
+        );
+
+        // cache[TrajectoryType.allBall1.value] = calcTrajectory("All Ball 1", 0.4, 0.4, true, 
+        //     new Pose2d(0.382, 3.81, new Rotation2d(Math.toRadians(0.0))),
+        //     List.of(new Translation2d(2.286, 3.048),
+        //             new Translation2d(2.286, 2.286),
+        //             new Translation2d(3.81, 1.524),
+        //             new Translation2d(4.572, 1.524)),
+        //     new Pose2d(4.572, .762, new Rotation2d(Math.toRadians(-90.0)))
+        // );
+
+        // cache[TrajectoryType.allBall2.value] = calcTrajectory("All Ball 2", 0.4, 0.4, false, 
+        //     new Pose2d(4.572, .762, new Rotation2d(Math.toRadians(-90.0))),
+        //     List.of(),
+        //     new Pose2d(3.81, 3.81, new Rotation2d(0.0))
+        // );
+
+        // cache[TrajectoryType.allBall3.value] = calcTrajectory("All Ball 3", 0.4, 0.4, true, 
+        //     new Pose2d(3.81, 3.81, new Rotation2d(0.0)),
+        //     List.of(new Translation2d(4.572, 3.81),
+        //             new Translation2d(5.334, 3.048),
+        //             new Translation2d(6.096, 3.048),
+        //             new Translation2d(6.858, 2.286),
+        //             new Translation2d(7.62, 1.524)),
+        //     new Pose2d(8.763, 0.762, new Rotation2d(0.0))
+        // );
+
+        cache[TrajectoryType.allBall1.value] = calcTrajectory("All Ball 1", 0.4, 0.4, false, 
+            new Pose2d(0.382, 3.81, new Rotation2d(Math.toRadians(0.0))),
+            List.of(),
+            new Pose2d(2.286, 3.048, new Rotation2d(Math.toRadians(-90.0)))
+        );
+
+        cache[TrajectoryType.allBall2.value] = calcTrajectory("All Ball 2", 0.4, 0.4, false, 
+            new Pose2d(2.286, 3.048, new Rotation2d(Math.toRadians(-90.0))),
+            List.of(new Translation2d(2.286, 2.286)),
+            new Pose2d(3.81, 1.524, new Rotation2d(Math.toRadians(0.0)))
+        );
+
+        cache[TrajectoryType.allBall3.value] = calcTrajectory("All Ball 3", 0.4, 0.4, false, 
+            new Pose2d(3.81, 1.524, new Rotation2d(Math.toRadians(0.0))),
+            List.of(new Translation2d(4.572, 1.524)),
+            new Pose2d(4.572, 0.762, new Rotation2d(Math.toRadians(-90.0)))
+        );
+
+        cache[TrajectoryType.allBall4.value] = calcTrajectory("All Ball 4", 0.4, 0.4, true, 
+            new Pose2d(4.572, .762, new Rotation2d(Math.toRadians(-90.0))),
+            List.of(new Translation2d(4, 3.5)),
+            new Pose2d(3.5, 3.81, new Rotation2d(0.0))
+        );
+
+        cache[TrajectoryType.allBall5.value] = calcTrajectory("All Ball 5", 0.4, 0.4, false, 
+            new Pose2d(3.5, 3.81, new Rotation2d(0.0)),
+            List.of(new Translation2d(4.572, 3.81),
+                    new Translation2d(5.334, 3.048),
+                    new Translation2d(6.096, 3.048),
+                    new Translation2d(6.858, 2.286),
+                    new Translation2d(7.62, 1.524)),
+            new Pose2d(8.763, 0.762, new Rotation2d(0.0))
         );
     }
 

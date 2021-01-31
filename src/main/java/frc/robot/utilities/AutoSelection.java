@@ -9,6 +9,7 @@ import frc.robot.commands.AutoShootForward;
 import frc.robot.commands.AutoShortShot;
 import frc.robot.commands.AutoOwnTrenchPickup;
 import frc.robot.commands.AutoTrussPickup;
+import frc.robot.commands.GalSearchAllPath;
 import frc.robot.commands.Wait;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.TrajectoryCache.TrajectoryType;
@@ -26,6 +27,7 @@ public class AutoSelection {
 	public static final int SHOOT_FORWARD = 4;
 	public static final int SHORT_SHOT = 5;
 	public static final int BOUNCE_PATH = 6;
+	public static final int ALL_BALL_PATH = 13;
 	
 	private TrajectoryCache trajectoryCache;
 	
@@ -90,6 +92,11 @@ public class AutoSelection {
 		if (autoPlan == BOUNCE_PATH){
 			log.writeLogEcho(true, "AutoSelect", "run BouncePath");
 			autonomousCommand = new AutoNavBouncePath(trajectoryCache, driveTrain, log);
+		}
+
+		if (autoPlan == ALL_BALL_PATH){
+			log.writeLogEcho(true, "AutoSelect", "run AllBallPath");
+			autonomousCommand = new GalSearchAllPath(trajectoryCache, driveTrain, intake, log);
 		}
 
 		if (autonomousCommand == null) {

@@ -189,6 +189,7 @@ public class RobotContainer {
 
     // Auto Nav
     SmartDashboard.putData("AutoNav Bounce Path", new AutoNavBouncePath(trajectoryCache, driveTrain, log));
+    SmartDashboard.putData("GalSearch All Ball Path", new GalSearchAllPath(trajectoryCache, driveTrain, intake, log));
 
     // auto selection widget
     autoChooser.setDefaultOption("ShootBackup", AutoSelection.SHOOT_BACKUP);
@@ -198,6 +199,7 @@ public class RobotContainer {
     autoChooser.addOption("OwnTrenchPickup", AutoSelection.OWN_TRENCH_PICKUP);
     autoChooser.addOption("ShortShot", AutoSelection.SHORT_SHOT);
     autoChooser.addOption("BouncePath", AutoSelection.BOUNCE_PATH);
+    autoChooser.addOption("AllBallPath", AutoSelection.ALL_BALL_PATH);
     SmartDashboard.putData("Autonomous routine", autoChooser);
     SmartDashboard.putNumber("Autonomous delay", 0);
     SmartDashboard.putBoolean("Autonomous use vision", false);
