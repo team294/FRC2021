@@ -69,10 +69,9 @@ public class DriveTrain extends SubsystemBase {
       } else {
         gyro = new AHRS(SerialPort.Port.kUSB);
       }
-      ahrs = gyro;
-      log.writeLog(true, "Drive", "Init A", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
-      gyro.zeroYaw();   // *** Do not zero the gyro hardware!  The hardware zeros asynchronously from this thread, so an immediate read-back of the gyro may not yet be zeroed.
-      log.writeLog(true, "Drive", "Init B", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
+      log.writeLog(true, "Drive", "Init A", "RawGyro", -gyro.getAngle());
+//      gyro.zeroYaw();   // *** Do not zero the gyro hardware!  The hardware zeros asynchronously from this thread, so an immediate read-back of the gyro may not yet be zeroed.
+      log.writeLog(true, "Drive", "Init B", "RawGyro", -gyro.getAngle());
 		} catch (RuntimeException ex) {
 			DriverStation.reportError("Error instantiating navX MXP:  " + ex.getMessage(), true);
     }
@@ -96,6 +95,8 @@ public class DriveTrain extends SubsystemBase {
     leftMotor2.follow(leftMotor1);
     rightMotor2.follow(rightMotor1);
 
+    log.writeLog(true, "Drive", "Init C1", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
+
     // Drive train is reversed on competition robot
     if (prototypeBot) {
       leftMotor1.setInverted(true);
@@ -117,6 +118,8 @@ public class DriveTrain extends SubsystemBase {
     leftMotor1.setSensorPhase(false);
     rightMotor1.setSensorPhase(false);
 
+    log.writeLog(true, "Drive", "Init C2", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
+
     leftMotor1.configNeutralDeadband(0.0);
     leftMotor2.configNeutralDeadband(0.0);
     rightMotor1.configNeutralDeadband(0.0);
@@ -132,6 +135,8 @@ public class DriveTrain extends SubsystemBase {
     // leftMotor2.configVoltageMeasurementFilter(4);
     // rightMotor1.configVoltageMeasurementFilter(4);
     // rightMotor2.configVoltageMeasurementFilter(4);
+
+    log.writeLog(true, "Drive", "Init C3", "Gyro Angle", getGyroRotation(), "RawGyro", getGyroRaw(), "YawZero", yawZero);
 
     setVoltageCompensation(true);
     setOpenLoopRampLimit(true);
