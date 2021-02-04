@@ -24,7 +24,7 @@ import frc.robot.Constants.DriveConstants;
 public class TrajectoryCache {
     private FileLog log;
    
-    private static int trajectoryCount = 8;
+    private static int trajectoryCount = 9;
     public Trajectory[] cache = new Trajectory[trajectoryCount];
 
     public enum TrajectoryType {
@@ -35,7 +35,8 @@ public class TrajectoryCache {
         bounceA3ToA6(4),
         bounceA6ToA9(5),
         bounceA9ToF(6),
-        slalom(7);
+        slalomSToMid(7),
+        slalomMidToF(8);
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;
@@ -100,25 +101,26 @@ public class TrajectoryCache {
             new Pose2d(8.382, 2.286, new Rotation2d(Math.toRadians(180.0)))
         );
 
-        cache[TrajectoryType.slalom.value] = calcTrajectory("Slalom S to Midpoint", 0.4, 0.4, false, 
+        cache[TrajectoryType.slalomSToMid.value] = calcTrajectory("Slalom S to Midpoint", 0.4, 0.4, false, 
             new Pose2d(0.762, 0.762, new Rotation2d(Math.toRadians(0.0))),
-            List.of(new Translation2d(2.286, 1.524),
+            List.of(new Translation2d(1.905, 0.8),
                     new Translation2d(3.048, 2.286),
+                    new Translation2d(4.572, 3.048),
                     new Translation2d(6.096, 2.286),
                     new Translation2d(6.858, 1.524),
                     new Translation2d(7.62, 0.762)),
             new Pose2d(8.382, 1.524, new Rotation2d(Math.toRadians(90.0)))
         );
 
-        cache[TrajectoryType.slalom.value] = calcTrajectory("Slalom Midpoint to F", 0.4, 0.4, false, 
+        cache[TrajectoryType.slalomMidToF.value] = calcTrajectory("Slalom Midpoint to F", 0.4, 0.4, false, 
             new Pose2d(8.382, 1.524, new Rotation2d(Math.toRadians(90.0))),
-            List.of(new Translation2d(7.62, 2.286),
-                    new Translation2d(6.858, 1.524),
-                    new Translation2d(6.096, 0.889),
+            List.of(new Translation2d(7.62, 2.3),
+                    new Translation2d(6.858, 1.8),
+                    new Translation2d(6.604, 0.762),
                     new Translation2d(4.572, 0.762),
                     new Translation2d(3.048, 0.889),
                     new Translation2d(1.524, 2.286)),
-            new Pose2d(0.762, 2.286, new Rotation2d(Math.toRadians(0.0)))
+            new Pose2d(0.762, 2.286, new Rotation2d(Math.toRadians(180.0)))
         );
     }
 
