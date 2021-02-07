@@ -104,9 +104,9 @@ public class TrajectoryCache {
         cache[TrajectoryType.slalomSToMid.value] = calcTrajectory("Slalom S to Midpoint", 0.4, 0.4, false, 
             new Pose2d(0.762, 0.762, new Rotation2d(Math.toRadians(0.0))),
             List.of(new Translation2d(1.905, 0.8),
-                    new Translation2d(3.048, 2.286),
+                    new Translation2d(3.048, 2.5),
                     new Translation2d(4.572, 3.048),
-                    new Translation2d(6.096, 2.286),
+                    new Translation2d(6.096, 2.6),
                     new Translation2d(6.858, 1.524),
                     new Translation2d(7.62, 0.762)),
             new Pose2d(8.382, 1.524, new Rotation2d(Math.toRadians(90.0)))
