@@ -30,22 +30,10 @@ public class AutoNavBouncePath extends SequentialCommandGroup {
           .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)), // Might not need to come to a full stop,
                                                                  // TODO test 2 trajectories back to back w/out stopping
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA3ToA6p1.value], true, PIDType.kWPILib, driveTrain, log) 
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA3ToA6.value], true, PIDType.kWPILib, driveTrain, log) 
           .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA3ToA6p2.value], true, PIDType.kWPILib, driveTrain, log) 
-          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
-      
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA3ToA6p3.value], true, PIDType.kWPILib, driveTrain, log) 
-          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
-
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA6ToA9p1.value], true, PIDType.kWPILib, driveTrain, log) 
-          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
-
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA6ToA9p2.value], true, PIDType.kWPILib, driveTrain, log) 
-          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
-      
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA6ToA9p3.value], true, PIDType.kWPILib, driveTrain, log) 
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA6ToA9.value], true, PIDType.kWPILib, driveTrain, log) 
           .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
 
       new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA9ToF.value], true, PIDType.kWPILib, driveTrain, log) 
