@@ -180,9 +180,9 @@ public class RobotContainer {
     SmartDashboard.putData("ZeroGyro", new DriveZeroGyro(driveTrain, log));
     SmartDashboard.putData("ZeroEncoders", new DriveZeroEncoders(driveTrain, log));
     SmartDashboard.putData("ZeroOdometry", new DriveResetPose(0, 0, 0, driveTrain, log));
-    SmartDashboard.putData("Drive Trajectory Relative", new DriveFollowTrajectory(CoordType.kRelative, trajectoryCache.cache[TrajectoryType.test.value], false, PIDType.kWPILib, driveTrain, log)
+    SmartDashboard.putData("Drive Trajectory Relative", new DriveFollowTrajectory(CoordType.kRelative, trajectoryCache.cache[TrajectoryType.test.value], false, PIDType.kTalon, driveTrain, log)
         .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
-    SmartDashboard.putData("Drive Trajectory Curve Relative", new DriveFollowTrajectory(CoordType.kRelative, trajectoryCache.cache[TrajectoryType.testCurve.value], false, PIDType.kWPILib, driveTrain, log)
+    SmartDashboard.putData("Drive Trajectory Curve Relative", new DriveFollowTrajectory(CoordType.kRelative, trajectoryCache.cache[TrajectoryType.testCurve.value], false, PIDType.kTalon, driveTrain, log)
         .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
     SmartDashboard.putData("Drive Trajectory Absolute", new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.test.value], driveTrain, log)
         .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)));
