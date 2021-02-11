@@ -2,7 +2,9 @@ package frc.robot.utilities;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
-import frc.robot.commands.AutoNavBarrelRacing;
+import frc.robot.commands.DriveFollowTrajectory;
+import frc.robot.commands.DriveFollowTrajectory.PIDType;
+import frc.robot.Constants.CoordType;
 import frc.robot.commands.AutoNavBouncePath;
 import frc.robot.commands.AutoOpponentTrenchPickup;
 import frc.robot.commands.AutoShootBackup;
@@ -96,7 +98,7 @@ public class AutoSelection {
 
 		if (autoPlan == BARREL_RACING){
 			log.writeLogEcho(true, "AutoSelect", "run BarrelRacing");
-			autonomousCommand = new AutoNavBarrelRacing(trajectoryCache, driveTrain, log);
+			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsoluteResetPose, trajectoryCache.cache[TrajectoryType.barrelRacing.value], true, driveTrain, log);
 		}
 
 		if (autonomousCommand == null) {
