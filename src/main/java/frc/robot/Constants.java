@@ -110,7 +110,8 @@ public final class Constants {
      */
     public enum CoordType {
         kRelative(0),
-        kAbsolute(1);
+        kAbsolute(1),
+        kAbsoluteResetPose(2);
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;
@@ -154,7 +155,7 @@ public final class Constants {
         // for each robot, not in this code!
         // *******************************
 
-        public static double ticksPerInch = 1103.9; // TODO Practice bot = 830.8, 1103.9 on competition bot
+        public static double ticksPerInch = 1195.0; // TODO Practice bot = 830.8, 1103.9 on competition bot (2020), 1195.0 on competition bot in parking lot (2021)
 
         // public static double wheelDiameterInches = 6.1; //TODO set wheel diameter
         // with actual robot values
@@ -197,7 +198,7 @@ public final class Constants {
         public static double kV = kVLinear * compensationVoltage; 
         public static double kA = kALinear * compensationVoltage; 
 
-        public static double TRACK_WIDTH = 0.9;   // 25.35in on practice bot, 24.93in on competition bot -- 1/20/21 changed to 0.9m on competition bot for tracjectory following
+        public static double TRACK_WIDTH = 0.8;   // 25.35in on practice bot, 24.93in on competition bot -- 1/31/21 changed to 0.8m on competition bot for tracjectory following
 
         public static void updateDerivedConstants() {
             kS = kSLinear * compensationVoltage; 
