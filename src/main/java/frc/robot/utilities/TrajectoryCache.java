@@ -114,7 +114,7 @@ public class TrajectoryCache {
                     new Translation2d(6.858, 1.524),
                     new Translation2d(6.096, 0.448),
                     new Translation2d(4.572, 0),
-                    new Translation2d(3.048, 9.548),
+                    new Translation2d(3.048, 0.548),
                     new Translation2d(1.905, 2.248)),
             new Pose2d(0.762, 2.286, new Rotation2d(Math.toRadians(180.0)))
         );
