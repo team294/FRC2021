@@ -110,7 +110,8 @@ public final class Constants {
      */
     public enum CoordType {
         kRelative(0),
-        kAbsolute(1);
+        kAbsolute(1),
+        kAbsoluteResetPose(2);
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;

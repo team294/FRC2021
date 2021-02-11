@@ -24,21 +24,15 @@ public class AutoNavBouncePath extends SequentialCommandGroup {
     // super(new FooCommand(), new BarCommand());
     addCommands(
 
-      new DriveResetPose(0.762, 2.286, 0.0, driveTrain, log),
+      new DriveFollowTrajectory(CoordType.kAbsoluteResetPose, trajectoryCache.cache[TrajectoryType.bounceSToA3.value], true, false, PIDType.kWPILib, 
+          driveTrain, log), // Might not need to come to a full stop,
+                           // TODO test 2 trajectories back to back w/out stopping
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceSToA3.value], false, PIDType.kWPILib, 
-          driveTrain, log) 
-          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)), // Might not need to come to a full stop,
-                                                                 // TODO test 2 trajectories back to back w/out stopping
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA3ToA6.value], true, false, PIDType.kWPILib, driveTrain, log),
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA3ToA6.value], false, PIDType.kWPILib, driveTrain, log) 
-          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA6ToA9.value], true, false, PIDType.kWPILib, driveTrain, log),
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA6ToA9.value], false, PIDType.kWPILib, driveTrain, log) 
-          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)),
-
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA9ToF.value], false, PIDType.kWPILib, driveTrain, log) 
-          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false))
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA9ToF.value], true, false, PIDType.kWPILib, driveTrain, log)
     );
   }
 }
