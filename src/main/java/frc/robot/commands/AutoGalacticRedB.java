@@ -25,13 +25,13 @@ public class AutoGalacticRedB extends SequentialCommandGroup {
     addCommands(
 
       new DriveResetPose(0.762, 3.81, -45.0, driveTrain, log),
+      new IntakePistonSetPosition(true, intake, log), // deploy intake
+      new Wait(0.4),
+      new IntakeSetPercentOutput(true, intake, log), // start intake
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.galacticRedB.value], 
+                                false, PIDType.kWPILib, driveTrain, log) 
+      .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)) // follow the trajcectory
       
-      parallel(
-        new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.galacticRedB.value], 
-                                  false, PIDType.kWPILib, driveTrain, log) 
-        .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)), // follow the trajcectory
-        new IntakeSequence(intake, log) // Deploy and run intake
-      ) 
     );
   }
 }
