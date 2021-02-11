@@ -26,9 +26,7 @@ public class AutoNavBarrelRacing extends SequentialCommandGroup {
 
       new DriveResetPose(0.762, 2.286, 0.0, driveTrain, log),
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.barrelRacing.value], false, PIDType.kWPILib, 
-          driveTrain, log) 
-          .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false))
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.barrelRacing.value], true, true, PIDType.kTalon, driveTrain, log)
     );
   }
 }
