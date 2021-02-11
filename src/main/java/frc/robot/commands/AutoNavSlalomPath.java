@@ -26,7 +26,7 @@ public class AutoNavSlalomPath extends SequentialCommandGroup {
 
       new DriveResetPose(0.762, 0.762, 0.0, driveTrain, log),
 
-      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.slalomSToMid.value], true, PIDType.kTalon, 
+      new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.slalom.value], true, PIDType.kTalon, 
           driveTrain, log) 
           .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)) // Might not need to come to a full stop,
                                                                  // TODO test 2 trajectories back to back w/out stopping

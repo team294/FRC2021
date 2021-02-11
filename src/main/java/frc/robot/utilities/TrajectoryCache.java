@@ -35,8 +35,7 @@ public class TrajectoryCache {
         bounceA3ToA6(4),
         bounceA6ToA9(5),
         bounceA9ToF(6),
-        slalomSToMid(7),
-        slalomMidToF(8);
+        slalom(7);
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;
@@ -101,7 +100,7 @@ public class TrajectoryCache {
             new Pose2d(8.382, 2.286, new Rotation2d(Math.toRadians(180.0)))
         );
 
-        cache[TrajectoryType.slalomSToMid.value] = calcTrajectory("Slalom S to Midpoint", 0.4, 0.4, false, 
+        cache[TrajectoryType.slalom.value] = calcTrajectory("Slalom", 0.4, 0.4, false, 
             new Pose2d(0.762, 0.762, new Rotation2d(Math.toRadians(0.0))),
             List.of(new Translation2d(1.905, 0.8),
                     new Translation2d(2.85, 2.5),
