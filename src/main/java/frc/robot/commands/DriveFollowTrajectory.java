@@ -58,6 +58,7 @@ public class DriveFollowTrajectory extends CommandBase {
   private double m_prevTime;
 
   private final boolean m_useRamsete;
+  private final boolean m_stopAtEnd;
   private final PIDType m_pidType;
 
   private final DriveTrain driveTrain;
@@ -83,17 +84,22 @@ public class DriveFollowTrajectory extends CommandBase {
    * this
    * is left to the user, since it is not appropriate for paths with nonstationary endstates.
    *
+   * @param trajectoryType  Specify what robot starting position to use
+   * kRelative = path starts where robot is, kAbsolute = path starts where it was told to regardless of whether the robot is actually there
+   * kAbsoluteResetPose = path starts where it was told to and robot is set at that starting point
    * @param trajectory      The trajectory to follow.
+   * @param stopAtEnd       True = robot stops at end of trajectory, False = robot does not end stopped
    * @param useRamsete      True = use Ramsete controller for feedback to track robot odometery to the trajectory;  False = no trajectory feedback
    * @param pidType         Specify which PIDs to use for feedback to track actual wheel velocities to desired wheel velocities.
    * kNone = no velocity feedback, kWPILib = PID in Rio WPILib software, kTalon (best) = velocity PID on Talon
    * @param driveTrain      The driveTrain subsystem to be controlled.
    * @param log             File for logging
    */
-  public DriveFollowTrajectory(CoordType trajectoryType, Trajectory trajectory, boolean useRamsete, PIDType pidType, DriveTrain driveTrain, FileLog log) {
+  public DriveFollowTrajectory(CoordType trajectoryType, Trajectory trajectory, boolean stopAtEnd, boolean useRamsete, PIDType pidType, DriveTrain driveTrain, FileLog log) {
     m_trajectoryType = trajectoryType;
     m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
     m_useRamsete = useRamsete;
+    m_stopAtEnd = stopAtEnd;
     m_pidType = pidType;
     this.driveTrain = driveTrain;
     this.log = log;
@@ -109,23 +115,29 @@ public class DriveFollowTrajectory extends CommandBase {
   * this
   * is left to the user, since it is not appropriate for paths with nonstationary endstates.
   *
-  * 
-  * @param trajectory      The trajectory to follow.flo
+  * @param trajectoryType  Specify what robot starting position to use
+  * kRelative = path starts where robot is, kAbsolute = path starts where it was told to regardless of whether the robot is actually there
+  * kAbsoluteResetPose = path starts where it was told to and robot is set at that starting point
+  * @param trajectory      The trajectory to 
+  * @param stopAtEnd       True = robot stops at end of trajectory, False = robot does not end stopped
   * @param driveTrain      The driveTrain subsystem to be controlled.
   * @param log             File for logging
   */
- public DriveFollowTrajectory(CoordType trajectoryType, Trajectory trajectory, DriveTrain driveTrain, FileLog log) {
-   this(trajectoryType, trajectory, true, PIDType.kTalon, driveTrain, log);
+ public DriveFollowTrajectory(CoordType trajectoryType, Trajectory trajectory, boolean stopAtEnd, DriveTrain driveTrain, FileLog log) {
+   this(trajectoryType, trajectory, stopAtEnd, true, PIDType.kTalon, driveTrain, log);
  }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     log.writeLog(false, "DriveFollowTrajectory", "Init");
+    var initialState = m_trajectory.sample(0);
+    if (m_trajectoryType == CoordType.kAbsoluteResetPose) {
+      driveTrain.resetPose(initialState.poseMeters);
+    }
     initialPose = driveTrain.getPose();
 
     m_prevTime = 0;
-    var initialState = m_trajectory.sample(0);
     m_prevSpeeds = m_kinematics.toWheelSpeeds(
         new ChassisSpeeds(initialState.velocityMetersPerSecond,
             0,
@@ -159,7 +171,7 @@ public class DriveFollowTrajectory extends CommandBase {
 
     Pose2d robotPose = driveTrain.getPose();
     if (m_trajectoryType == CoordType.kRelative) {
-        robotPose = robotPose.relativeTo(initialPose);
+      robotPose = robotPose.relativeTo(initialPose);
     }
 
     DifferentialDriveWheelSpeeds robotSpeeds = driveTrain.getWheelSpeeds();
@@ -232,6 +244,9 @@ public class DriveFollowTrajectory extends CommandBase {
     log.writeLog(false, "DriveFollowTrajectory", "End");
     m_timer.stop();
     driveTrain.setOpenLoopRampLimit(true);
+    if (m_stopAtEnd) {
+      driveTrain.tankDrive(0.0, 0.0, false);
+    }
   }
 
   // Returns true when the command should end.
