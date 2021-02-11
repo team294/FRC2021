@@ -2,6 +2,7 @@ package frc.robot.utilities;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import frc.robot.commands.AutoNavBarrelRacing;
 import frc.robot.commands.AutoNavBouncePath;
 import frc.robot.commands.AutoOpponentTrenchPickup;
 import frc.robot.commands.AutoShootBackup;
@@ -26,6 +27,7 @@ public class AutoSelection {
 	public static final int SHOOT_FORWARD = 4;
 	public static final int SHORT_SHOT = 5;
 	public static final int BOUNCE_PATH = 6;
+	public static final int BARREL_RACING = 7;
 	
 	private TrajectoryCache trajectoryCache;
 	
@@ -90,6 +92,11 @@ public class AutoSelection {
 		if (autoPlan == BOUNCE_PATH){
 			log.writeLogEcho(true, "AutoSelect", "run BouncePath");
 			autonomousCommand = new AutoNavBouncePath(trajectoryCache, driveTrain, log);
+		}
+
+		if (autoPlan == BARREL_RACING){
+			log.writeLogEcho(true, "AutoSelect", "run BarrelRacing");
+			autonomousCommand = new AutoNavBarrelRacing(trajectoryCache, driveTrain, log);
 		}
 
 		if (autonomousCommand == null) {
