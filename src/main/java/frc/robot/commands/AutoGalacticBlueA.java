@@ -27,8 +27,7 @@ public class AutoGalacticBlueA extends SequentialCommandGroup {
       new DriveResetPose(0.762, 0.762, 0.0, driveTrain, log),
       parallel(
         new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.galacticBlueA.value], 
-                                  true, PIDType.kTalon, driveTrain, log) 
-        .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)), // follow the trajcectory
+                                  true, true, PIDType.kTalon, driveTrain, log), // follow the trajcectory
         new IntakeSequence(intake, log) // Deploy and run intake
       ) 
     );

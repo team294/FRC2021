@@ -29,8 +29,7 @@ public class AutoGalacticRedA extends SequentialCommandGroup {
       new Wait(0.4),
       new IntakeSetPercentOutput(true, intake, log),
       new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.galacticRedA.value], 
-                                  true, PIDType.kTalon, driveTrain, log) 
-      .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)) // follow the trajcectory
+                                  true, true, PIDType.kTalon, driveTrain, log) // follow the trajcectory
     );
   }
 }

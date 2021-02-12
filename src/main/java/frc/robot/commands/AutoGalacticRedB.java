@@ -29,8 +29,7 @@ public class AutoGalacticRedB extends SequentialCommandGroup {
       new Wait(0.4),
       new IntakeSetPercentOutput(true, intake, log), // start intake
       new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.galacticRedB.value], 
-                                false, PIDType.kWPILib, driveTrain, log) 
-      .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)) // follow the trajcectory
+                                true, true, PIDType.kWPILib, driveTrain, log) // follow the trajcectory
       
     );
   }

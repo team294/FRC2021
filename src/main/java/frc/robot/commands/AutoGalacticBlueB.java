@@ -28,8 +28,7 @@ public class AutoGalacticBlueB extends SequentialCommandGroup {
       
       parallel(
         new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.galacticBlueB.value], 
-                                  true, PIDType.kTalon, driveTrain, log) 
-        .andThen(() -> driveTrain.tankDrive(0.0, 0.0, false)), // follow the trajcectory
+                                  true, true, PIDType.kTalon, driveTrain, log), // follow the trajcectory
         new IntakeSequence(intake, log) // Deploy and run intake
       ) 
     );
