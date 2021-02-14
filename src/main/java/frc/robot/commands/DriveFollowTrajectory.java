@@ -246,6 +246,7 @@ public class DriveFollowTrajectory extends CommandBase {
     driveTrain.setOpenLoopRampLimit(true);
     if (m_stopAtEnd) {
       driveTrain.tankDrive(0.0, 0.0, false);
+      driveTrain.setDriveModeCoast(false);
     }
   }
 
