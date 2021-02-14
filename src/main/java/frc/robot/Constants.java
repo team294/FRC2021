@@ -198,7 +198,7 @@ public final class Constants {
         public static double kV = kVLinear * compensationVoltage; 
         public static double kA = kALinear * compensationVoltage; 
 
-        public static double TRACK_WIDTH = 0.8;   // 25.35in on practice bot, 24.93in on competition bot -- 1/31/21 changed to 0.8m on competition bot for tracjectory following
+        public static double TRACK_WIDTH = 0.71;   // 25.35in on practice bot, 24.93in on competition bot -- 2/14/21 changed to 0.71m on competition bot for tracjectory following
 
         public static void updateDerivedConstants() {
             kS = kSLinear * compensationVoltage; 
