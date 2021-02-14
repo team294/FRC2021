@@ -23,10 +23,7 @@ public class AutoNavBouncePath extends SequentialCommandGroup {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(
-
-      new DriveFollowTrajectory(CoordType.kAbsoluteResetPose, trajectoryCache.cache[TrajectoryType.bounceSToA3.value], true, true, PIDType.kTalon, 
-          driveTrain, log), // Might not need to come to a full stop,
-                           // TODO test 2 trajectories back to back w/out stopping
+      new DriveFollowTrajectory(CoordType.kAbsoluteResetPose, trajectoryCache.cache[TrajectoryType.bounceSToA3.value], true, true, PIDType.kTalon, driveTrain, log),
 
       new DriveFollowTrajectory(CoordType.kAbsolute, trajectoryCache.cache[TrajectoryType.bounceA3ToA6.value], true, true, PIDType.kTalon, driveTrain, log),
 
