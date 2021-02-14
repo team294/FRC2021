@@ -3,10 +3,8 @@ package frc.robot.utilities;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import frc.robot.Constants.CoordType;
-import frc.robot.commands.AutoGalacticBlueA;
-import frc.robot.commands.AutoGalacticBlueB;
-import frc.robot.commands.AutoGalacticRedA;
-import frc.robot.commands.AutoGalacticRedB;
+import frc.robot.Constants.SearchType;
+import frc.robot.commands.AutoGalacticSearch;
 import frc.robot.commands.AutoNavBouncePath;
 import frc.robot.commands.AutoOpponentTrenchPickup;
 import frc.robot.commands.AutoShootBackup;
@@ -105,22 +103,22 @@ public class AutoSelection {
 
 		if (autoPlan == RED_A && trajectoryCache.cache[TrajectoryType.galacticRedA.value] != null) {
 			log.writeLogEcho(true, "AutoSelect", "run Galactic Red A");
-			autonomousCommand = new AutoGalacticRedA(trajectoryCache, driveTrain, log, intake);
+			autonomousCommand = new AutoGalacticSearch(SearchType.kRedA, trajectoryCache, driveTrain, log, intake);
 		}
 
 		if (autoPlan == BLUE_A && trajectoryCache.cache[TrajectoryType.galacticBlueA.value] != null) {
 			log.writeLogEcho(true, "AutoSelect", "run Galactic Blue A");
-			autonomousCommand = new AutoGalacticBlueA(trajectoryCache, driveTrain, log, intake);
+			autonomousCommand = new AutoGalacticSearch(SearchType.kBlueA, trajectoryCache, driveTrain, log, intake);
 		}
 
 		if (autoPlan == RED_B && trajectoryCache.cache[TrajectoryType.galacticRedB.value] != null) {
 			log.writeLogEcho(true, "AutoSelect", "run Galactic Red B");
-			autonomousCommand = new AutoGalacticRedB(trajectoryCache, driveTrain, log, intake);
+			autonomousCommand = new AutoGalacticSearch(SearchType.kRedB, trajectoryCache, driveTrain, log, intake);
 		}
 
 		if (autoPlan == BLUE_B && trajectoryCache.cache[TrajectoryType.galacticBlueB.value] != null) {
 			log.writeLogEcho(true, "AutoSelect", "run Galactic Blue B");
-			autonomousCommand = new AutoGalacticBlueB(trajectoryCache, driveTrain, log, intake);
+			autonomousCommand = new AutoGalacticSearch(SearchType.kBlueB,trajectoryCache, driveTrain, log, intake);
 		}
 
 		if (autonomousCommand == null) {
