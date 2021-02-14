@@ -22,5 +22,4 @@ double "/Preferences/Drive.tLagAngular"=0.02
 double "/Preferences/Drive.ticksPerInch"=1103.9
 boolean "/Preferences/Limelight.takeSnapshots"=true
 boolean "/Preferences/problemExists"=true
-string "/Preferences/problemSubsystem"="CAN Bus, LimeLight"
 boolean "/Preferences/prototypeBot"=false
