@@ -61,8 +61,7 @@ public class AutoSelection {
 	 * @return the command to run
 	 */
 	public Command getAutoCommand(double waitTime, boolean useVision, Integer autoPlan, DriveTrain driveTrain,
-			Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LimeLight limeLight, FileLog log, LED led,
-			Object CoordType) {
+			Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LimeLight limeLight, FileLog log, LED led) {
 		Command autonomousCommand = null;
 		Trajectory trajectory;
 
