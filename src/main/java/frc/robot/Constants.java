@@ -168,7 +168,7 @@ public final class Constants {
         // for each robot, not in this code!
         // *******************************
 
-        public static double ticksPerInch = 1195.0; // TODO Practice bot = 830.8, 1103.9 on competition bot (2020), 1195.0 on competition bot in parking lot (2021)
+        public static double ticksPerInch = 1210.0; // TODO Practice bot = 830.8, 1103.9 on competition bot (2020), 1210.0 (was 1195.0) on competition bot in parking lot (2021)
 
         // public static double wheelDiameterInches = 6.1; //TODO set wheel diameter
         // with actual robot values
