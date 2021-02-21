@@ -104,9 +104,9 @@ public class LimeLightBallCamera extends LimeLight {
       }
 
       // Invert X on SmartDashboard, since bars on SmartDashboard always go from - (left) to + (right)
-      SmartDashboard.putNumber("LimeLight x", -x);
-      SmartDashboard.putNumber("LimeLight y", y);
-      SmartDashboard.putBoolean("Limelight Sees Target", seesTarget());
+      SmartDashboard.putNumber("LimeLight x Ball", -x);
+      SmartDashboard.putNumber("LimeLight y Ball", y);
+      SmartDashboard.putBoolean("Limelight Sees Ball", seesTarget());
       //SmartDashboard.putNumber("Limelight dist", getDistance()); // distance assuming we are in line with the target
       SmartDashboard.putNumber("Limelight new distance", getDistance()); // distance calculation using vision camera
       SmartDashboard.putNumber("Limelight Actual dist", (-driveTrain.getAverageDistance()/12)); // distance calculation using drive encoders, used to test accuracy of getDistanceNew()

@@ -47,7 +47,7 @@ public class RobotContainer {
   private final Climb climb = new Climb(log);
   private final Shooter shooter = new Shooter(hopper, log, tempCheck, led);
   private final DriveTrain driveTrain = new DriveTrain(log, tempCheck);
-  private final LimeLight limeLight = new LimeLight(log, led, driveTrain);
+  private final LimeLightVisionTarget limeLight = new LimeLightVisionTarget(log, led, driveTrain);
 
   private final TrajectoryCache trajectoryCache = new TrajectoryCache(log);
   private final AutoSelection autoSelection = new AutoSelection(trajectoryCache, log);
