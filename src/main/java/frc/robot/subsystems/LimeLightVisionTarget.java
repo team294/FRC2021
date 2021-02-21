@@ -23,7 +23,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import static frc.robot.Constants.LimeLightConstants.*;
 
-public class LimeLight extends SubsystemBase implements Loggable {
+public class LimeLightVisionTarget extends LimeLight {
   private static NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
   private static NetworkTable table = tableInstance.getTable("limelight");
   private NetworkTableEntry tv, tx, ty, ta, tl, pipeline;
@@ -49,44 +49,18 @@ public class LimeLight extends SubsystemBase implements Loggable {
    * send raw corners? : nah send raw contours: no crosshair mode: Single
    * crosshair x: 0 y: 0 ~~3d experimental~~ no changes
    */
-  public LimeLight(FileLog log, LED led, DriveTrain driveTrain) {
-    this.log = log;
-    this.led = led;
-    this.snapshotTimer = new Timer();
-    snapshotTimer.reset();
-    snapshotTimer.start();
-    this.driveTrain = driveTrain;
-    tableInstance.startClientTeam(294);
-
-    tv = table.getEntry("tv");
-    tx = table.getEntry("tx");
-    ty = table.getEntry("ty");
-    ta = table.getEntry("ta");
-    tl = table.getEntry("tl");
-    pipeline = table.getEntry("pipeline");
+  public LimeLightVisionTarget(FileLog log, LED led, DriveTrain driveTrain) {
+    super(log, led, driveTrain);
+    SmartDashboard.putNumber("Pipeline", 0);
   }
 
-  /**
-   * @return horizontal (x-axis) angle, in degrees, between camera crosshair and target crosshair
-   * + = target is to the left, - = target is to the right
-   */
-  public double getXOffset() {
-    return x;
-  }
 
   /**
-   * @return vertical (y-axis) angle, in degrees, between camera crosshair and target crosshair
-   * down is negative, up is positive
+   * Distance from the robot to the shooting "sweet spot"
+   * @return distance to the "sweet spot", in feet (+ = move towards target)
    */
-  public double getYOffset() {
-    return y;
-  }
-
-  /**
-   * @return area of target
-   */
-  public double getArea() {
-    return area;
+  public double getSweetSpot() {
+    return sweetSpot;
   }
 
   /**
@@ -160,6 +134,24 @@ public class LimeLight extends SubsystemBase implements Loggable {
     snapshotCount = 0;
   }
 
+  /**
+   * @param on true = turn on the flashlight, false = turns off the flashlight
+   */
+  public void setFlashlight(boolean on) {
+    if(on) {
+      flashlight.set(Value.kForward);
+    } else {
+      flashlight.set(Value.kReverse);
+    }
+  }
+
+  /**
+   * @param auto true = automatically turn on the flashlight when we lose vision
+   * false = allow driver to turn flashlight on/off
+   */
+  public void setFlashlightAuto(boolean auto) {
+    setFlashAuto = auto;
+  }
 
   /**
    * Choose which LED pattern to display, based on the x offset from camera.
@@ -225,6 +217,17 @@ public class LimeLight extends SubsystemBase implements Loggable {
     } while(networkTableReadCounter<= 5 && (targetExistsNew != targetExists || xNew != x || yNew != y
     || areaNew != area || latencyNew != latency));
 
+    sweetSpot = getDistance() - endDistance;
+
+    if (makePattern() == LED.visionTargetLibrary[15]) {
+      led.setPattern(makePattern(), 0.1, 0);
+    } else {
+      led.setPattern(makePattern(), 0.5, 0);
+    }
+
+    if(!isGettingData() && setFlashAuto) {
+      setFlashlight(true);
+    }
     
     if (fastLogging || log.getLogRotation() == log.LIMELIGHT_CYCLE) {
       updateLimeLightLog(false);
@@ -257,12 +260,6 @@ public class LimeLight extends SubsystemBase implements Loggable {
       }
     }
   }
-
-  @Override
-  public void enableFastLogging(boolean enabled) {
-    fastLogging = enabled;
-  }
-
   /**
    * Write information about limelight to fileLog.
    * @param logWhenDisabled true = log when disabled, false = discard the string
