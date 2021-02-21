@@ -100,7 +100,7 @@ public class TrajectoryCache {
             new Pose2d(8.382, 2.286, new Rotation2d(Math.toRadians(180.0)))
         );
 
-        cache[TrajectoryType.slalom.value] = calcTrajectory("Slalom", 0.4, 0.4, false, 
+        cache[TrajectoryType.slalom.value] = calcTrajectory("Slalom", 0.4, 0.5, false, 
             new Pose2d(0.762, 0.762, new Rotation2d(Math.toRadians(0.0))),
             List.of(new Translation2d(1.905, 0.8),
                     new Translation2d(2.85, 2.5),
@@ -114,8 +114,8 @@ public class TrajectoryCache {
                     new Translation2d(6.096, 0.448),
                     new Translation2d(4.572, 0),
                     new Translation2d(2.85, 0.548),
-                    new Translation2d(1.905, 1.905)),
-            new Pose2d(1.25, 2.286, new Rotation2d(Math.toRadians(180.0)))
+                    new Translation2d(1.905, 2.1)),
+            new Pose2d(1.25, 2.486, new Rotation2d(Math.toRadians(180.0)))
         );
 
         
