@@ -101,7 +101,7 @@ public class TrajectoryCache {
         );
 
         cache[TrajectoryType.barrelRacing.value] = calcTrajectory("Barrel Racing", 0.4, 0.4, false, 
-            new Pose2d(0.762, 2.286, new Rotation2d(Math.toRadians(0.0))),
+            new Pose2d(1.092, 2.286, new Rotation2d(Math.toRadians(0.0))),
             List.of(new Translation2d(3.81, 2.22),
                     new Translation2d(4.51, 1.52),
                     new Translation2d(3.81, 0.82),
@@ -111,10 +111,10 @@ public class TrajectoryCache {
                     new Translation2d(6.79, 3.04),
                     new Translation2d(6.09, 3.74),
                     new Translation2d(5.39, 3.04),
-                    new Translation2d(6.09, 2.14),
-                    new Translation2d(6.92, 1.32),
+                    new Translation2d(6.0, 2.14),
+                    new Translation2d(6.8, 1.32),
                     new Translation2d(7.62, 0.82),
-                    new Translation2d(8.32, 1.32),
+                    new Translation2d(8.5, 1),
                     new Translation2d(7.62, 2.22)),
             new Pose2d(1.04, 2.54, new Rotation2d(Math.toRadians(180.0)))
         );
