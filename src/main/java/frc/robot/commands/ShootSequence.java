@@ -16,7 +16,6 @@ import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.FileLog;
-import frc.robot.utilities.Loggable;
 
 public class ShootSequence extends SequentialCommandGroup {
   /**
