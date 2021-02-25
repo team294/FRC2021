@@ -35,15 +35,6 @@ public class TrajectoryCache {
         bounceA3ToA6(4),
         bounceA6ToA9(5),
         bounceA9ToF(6);
-        // bounceA3ToA6p1(4),
-        // bounceA3ToA6p2(5),
-        // bounceA3ToA6p3(6),
-        // bounceA6ToA9p1(7),
-        // bounceA6ToA9p2(8),
-        // bounceA6ToA9p3(8),
-        // bounceA6ToA9p4(9),
-        // bounceA6ToA9p5(10),
-
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;
@@ -86,55 +77,6 @@ public class TrajectoryCache {
             List.of(),
             new Pose2d(2.286, 3.5, new Rotation2d(Math.toRadians(90.0)))
         );
-
-        // TODO Remove when actual bounce path is finalized (uncomment for "perfect" bounce path)
-        // cache[TrajectoryType.bounceA3ToA6p1.value] = calcTrajectory("Bounce A3-6 Part 1", 0.3, 0.4, true, 
-        //     new Pose2d(2.286, 3.81, new Rotation2d(Math.toRadians(90.0))),
-        //     List.of(),
-        //     new Pose2d(3.048, 1.524, new Rotation2d(Math.toRadians(90.0)))
-        // );
-
-        // cache[TrajectoryType.bounceA3ToA6p2.value] = calcTrajectory("Bounce A3-6 Part 2", 0.3, 0.4, true, 
-        //     new Pose2d(3.048, 1.524, new Rotation2d(Math.toRadians(90.0))),
-        //     List.of(new Translation2d(3.81, 0.762)),
-        //     new Pose2d(4.572, 1.524, new Rotation2d(Math.toRadians(-90.0)))
-        // );
-
-        // cache[TrajectoryType.bounceA3ToA6p2.value] = calcTrajectory("Bounce A3-6 Part 3", 0.3, 0.4, true, 
-        //     new Pose2d(4.572, 1.524, new Rotation2d(Math.toRadians(-90.0))),
-        //     List.of(),
-        //     new Pose2d(4.572, 3.81, new Rotation2d(Math.toRadians(-90.0)))
-        // );
-
-        // cache[TrajectoryType.bounceA6ToA9p1.value] = calcTrajectory("Bounce A6-9 Part 1", 0.3, 0.4, false, 
-        //     new Pose2d(4.572, 3.81, new Rotation2d(Math.toRadians(-90.0))),
-        //     List.of(),
-        //     new Pose2d(4.572, 1.524, new Rotation2d(Math.toRadians(-90.0)))
-        // );
-
-        // cache[TrajectoryType.bounceA6ToA9p2.value] = calcTrajectory("Bounce A6-9 Part 2", 0.3, 0.4, false, 
-        //     new Pose2d(4.572, 1.524, new Rotation2d(Math.toRadians(-90.0))),
-        //     List.of(),
-        //     new Pose2d(5.334, 0.762, new Rotation2d(Math.toRadians(0.0)))
-        // );
-
-        // cache[TrajectoryType.bounceA6ToA9p3.value] = calcTrajectory("Bounce A6-9 Part 2", 0.3, 0.4, false, 
-        //     new Pose2d(5.334, 0.762, new Rotation2d(Math.toRadians(0.0))),
-        //     List.of(),
-        //     new Pose2d(6.096, 0.762, new Rotation2d(Math.toRadians(0.0)))
-        // );
-
-        // cache[TrajectoryType.bounceA6ToA9p4.value] = calcTrajectory("Bounce A6-9 Part 3", 0.3, 0.4, false, 
-        //     new Pose2d(6.096, 0.762, new Rotation2d(Math.toRadians(0.0))),
-        //     List.of(),
-        //     new Pose2d(6.858, 1.524, new Rotation2d(Math.toRadians(90.0)))
-        // );
-
-        // cache[TrajectoryType.bounceA6ToA9p5.value] = calcTrajectory("Bounce A6-9 Part 3", 0.3, 0.4, false, 
-        //     new Pose2d(6.858, 1.524, new Rotation2d(Math.toRadians(90.0))),
-        //     List.of(),
-        //     new Pose2d(6.858, 3.81, new Rotation2d(Math.toRadians(90.0)))
-        // );
 
         cache[TrajectoryType.bounceA3ToA6.value] = calcTrajectory("Bounce A3-6", 0.45, 0.6, true, 
             new Pose2d(2.286, 3.5, new Rotation2d(Math.toRadians(90.0))),

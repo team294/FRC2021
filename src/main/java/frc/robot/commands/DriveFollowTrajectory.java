@@ -147,6 +147,7 @@ public class DriveFollowTrajectory extends CommandBase {
     m_timer.reset();
     m_timer.start();
 
+    driveTrain.setDriveModeCoast(false);
     switch (m_pidType) {
       case kWPILib:
         m_leftController.reset();
