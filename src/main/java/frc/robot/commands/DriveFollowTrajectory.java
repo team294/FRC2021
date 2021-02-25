@@ -9,6 +9,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.CoordType;
+import frc.robot.Constants.StopType;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.subsystems.DriveTrain;
 import frc.robot.utilities.FileLog;
@@ -44,6 +45,7 @@ public class DriveFollowTrajectory extends CommandBase {
   private final Timer m_timer = new Timer();
   private final Trajectory m_trajectory;
   private final CoordType m_trajectoryType;
+  private final StopType m_stopAtEnd;
 
   private Pose2d initialPose;
 
@@ -58,7 +60,6 @@ public class DriveFollowTrajectory extends CommandBase {
   private double m_prevTime;
 
   private final boolean m_useRamsete;
-  private final boolean m_stopAtEnd;
   private final PIDType m_pidType;
 
   private final DriveTrain driveTrain;
@@ -87,19 +88,19 @@ public class DriveFollowTrajectory extends CommandBase {
    * @param trajectoryType  Specify what robot starting position to use
    * kRelative = path starts where robot is, kAbsolute = path starts where it was told to regardless of whether the robot is actually there
    * kAbsoluteResetPose = path starts where it was told to and robot is set at that starting point
+   * @param stopAtEnd       kNoStop = robot doesn't end stopped, kCoast = robot stops at end in Coast mode, kBrake = robot stops at end in Brake mode
    * @param trajectory      The trajectory to follow.
-   * @param stopAtEnd       True = robot stops at end of trajectory, False = robot does not end stopped
    * @param useRamsete      True = use Ramsete controller for feedback to track robot odometery to the trajectory;  False = no trajectory feedback
    * @param pidType         Specify which PIDs to use for feedback to track actual wheel velocities to desired wheel velocities.
    * kNone = no velocity feedback, kWPILib = PID in Rio WPILib software, kTalon (best) = velocity PID on Talon
    * @param driveTrain      The driveTrain subsystem to be controlled.
    * @param log             File for logging
    */
-  public DriveFollowTrajectory(CoordType trajectoryType, Trajectory trajectory, boolean stopAtEnd, boolean useRamsete, PIDType pidType, DriveTrain driveTrain, FileLog log) {
+  public DriveFollowTrajectory(CoordType trajectoryType, StopType stopAtEnd, Trajectory trajectory, boolean useRamsete, PIDType pidType, DriveTrain driveTrain, FileLog log) {
     m_trajectoryType = trajectoryType;
+    m_stopAtEnd = stopAtEnd;
     m_trajectory = requireNonNullParam(trajectory, "trajectory", "RamseteCommand");
     m_useRamsete = useRamsete;
-    m_stopAtEnd = stopAtEnd;
     m_pidType = pidType;
     this.driveTrain = driveTrain;
     this.log = log;
@@ -123,8 +124,8 @@ public class DriveFollowTrajectory extends CommandBase {
   * @param driveTrain      The driveTrain subsystem to be controlled.
   * @param log             File for logging
   */
- public DriveFollowTrajectory(CoordType trajectoryType, Trajectory trajectory, boolean stopAtEnd, DriveTrain driveTrain, FileLog log) {
-   this(trajectoryType, trajectory, stopAtEnd, true, PIDType.kTalon, driveTrain, log);
+ public DriveFollowTrajectory(CoordType trajectoryType, StopType stopAtEnd, Trajectory trajectory, DriveTrain driveTrain, FileLog log) {
+   this(trajectoryType, stopAtEnd, trajectory, true, PIDType.kTalon, driveTrain, log);
  }
 
   // Called when the command is initially scheduled.
@@ -244,8 +245,12 @@ public class DriveFollowTrajectory extends CommandBase {
     log.writeLog(false, "DriveFollowTrajectory", "End");
     m_timer.stop();
     driveTrain.setOpenLoopRampLimit(true);
-    if (m_stopAtEnd) {
+    if (m_stopAtEnd == StopType.kCoast) {
       driveTrain.tankDrive(0.0, 0.0, false);
+      driveTrain.setDriveModeCoast(true);
+    } else if (m_stopAtEnd == StopType.kBrake) {
+      driveTrain.tankDrive(0.0, 0.0, false);
+      driveTrain.setDriveModeCoast(false);
     }
   }
 
