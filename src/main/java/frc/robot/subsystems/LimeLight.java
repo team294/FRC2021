@@ -22,22 +22,21 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import static frc.robot.Constants.LimeLightConstants.*;
+import frc.robot.utilities.StringUtil;
 
 public class LimeLight extends SubsystemBase implements Loggable {
-  private static NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
-  private static NetworkTable table = tableInstance.getTable("limelight");
-  private NetworkTableEntry tv, tx, ty, ta, tl, pipeline;
-  private double targetExists, x, y, area, latency, pipe;
-  private Relay flashlight = new Relay(relayFlashlight, Direction.kBoth);
-  private FileLog log;
-  private LED led;
-  private double sweetSpot;
-  private Timer snapshotTimer;
-  private int snapshotCount = 0;
-  private int networkTableReadCounter = 0;
-  private boolean setFlashAuto = true;
-  private boolean fastLogging = false;
-  private DriveTrain driveTrain; // for testing distance calculation TODO take out once dist calc is finished
+  private NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
+  protected NetworkTable table;
+  protected NetworkTableEntry tv, tx, ty, ta, tl, pipeline;
+  protected String limelightName;
+  protected double targetExists, x, y, area;
+  protected double latency;
+  protected double pipe;
+  protected FileLog log;
+  protected Timer snapshotTimer;
+  protected int snapshotCount = 0;
+  protected int networkTableReadCounter = 0;
+  protected boolean fastLogging = false;
 
   /*
    * Limelight settings: ~~input~~ Exposure: 2 Black level offset: 0 red balance:
@@ -49,15 +48,14 @@ public class LimeLight extends SubsystemBase implements Loggable {
    * send raw corners? : nah send raw contours: no crosshair mode: Single
    * crosshair x: 0 y: 0 ~~3d experimental~~ no changes
    */
-  public LimeLight(FileLog log, LED led, DriveTrain driveTrain) {
+  public LimeLight(String tableName, FileLog log) {
     this.log = log;
-    this.led = led;
+    table = tableInstance.getTable(tableName);
+    limelightName = tableName;
     this.snapshotTimer = new Timer();
     snapshotTimer.reset();
     snapshotTimer.start();
-    this.driveTrain = driveTrain;
     tableInstance.startClientTeam(294);
-
     tv = table.getEntry("tv");
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
@@ -96,15 +94,7 @@ public class LimeLight extends SubsystemBase implements Loggable {
     return latency;
   }
 
-  /**
-   * Takes into account not being in line with the target.
-   * @return distance from camera to target, on the floor, in feet
-   */
-  public double getDistance() {    //  TODO  this could return a erroneous value if vision misses a frame or is temporarily blocked.  Use avgrging or filtering
-    double myDistance = (targetHeight - cameraHeight) / ((Math.tan(Math.toRadians(cameraAngle + y))) * (Math.cos(Math.toRadians(x))));
-    return myDistance;
-  }
-
+  
   /**
    * @return current pipeline number
    */
@@ -161,25 +151,7 @@ public class LimeLight extends SubsystemBase implements Loggable {
   }
 
 
-  /**
-   * Choose which LED pattern to display, based on the x offset from camera.
-   * @return Color array of the pattern
-   */
-  public Color[] makePattern() {
-    Color[] myPattern = new Color[16];
-    int patternFormula = (int)(-x + 7);
-    if (patternFormula < 0) {
-      patternFormula = 0;
-    } else if (patternFormula > 14) {
-      patternFormula = 14;
-    }
-
-    myPattern = LED.visionTargetLibrary[patternFormula];
-    if (!seesTarget()) {
-      myPattern = LED.visionTargetLibrary[15];
-    }
-    return myPattern;
-  }
+ 
 //TODO increase limelight logging and edit seesTarget to check last three periodic for target
   /**
    * @return true when limelight sees a target, false when not seeing a target
@@ -238,13 +210,9 @@ public class LimeLight extends SubsystemBase implements Loggable {
       }
 
       // Invert X on SmartDashboard, since bars on SmartDashboard always go from - (left) to + (right)
-      SmartDashboard.putNumber("LimeLight x", -x);
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " x"), -x);
       SmartDashboard.putNumber("LimeLight y", y);
       SmartDashboard.putBoolean("Limelight Sees Target", seesTarget());
-      //SmartDashboard.putNumber("Limelight dist", getDistance()); // distance assuming we are in line with the target
-      SmartDashboard.putNumber("Limelight new distance", getDistance()); // distance calculation using vision camera
-      SmartDashboard.putNumber("Limelight Actual dist", (-driveTrain.getAverageDistance()/12)); // distance calculation using drive encoders, used to test accuracy of getDistanceNew()
-      SmartDashboard.putNumber("Limelight sweet spot", sweetSpot);
       SmartDashboard.putBoolean("Limelight Updating", isGettingData());
       SmartDashboard.putNumber("Limelight Latency", getLatency());
       SmartDashboard.putNumber("Limelight Snapshot Count", snapshotCount);
@@ -252,7 +220,7 @@ public class LimeLight extends SubsystemBase implements Loggable {
       pipe = SmartDashboard.getNumber("Pipeline", 0); // default is vision pipeline
 
       if (getPipeline() != pipe) {
-        log.writeLogEcho(false, "LimeLight", "Pipeline change", "Pipeline", pipe);
+        log.writeLogEcho(false, limelightName, "Pipeline change", "Pipeline", pipe);
         setPipe(pipe);
       }
     }
@@ -268,15 +236,14 @@ public class LimeLight extends SubsystemBase implements Loggable {
    * @param logWhenDisabled true = log when disabled, false = discard the string
    */
   public void updateLimeLightLog(boolean logWhenDisabled) {
-    log.writeLog(logWhenDisabled, "LimeLight", "Update Variables", 
+    log.writeLog(logWhenDisabled, limelightName, "Update Variables", 
       "Target Valid", seesTarget(),
       "Center Offset X", x, 
       "Center Offset Y", y,
       "Target Area", area,
       "Latency", latency,
       "Network Table Read Counter", networkTableReadCounter,
-      "Snapshot Count", snapshotCount,
-      "Dist", getDistance(), "Encoder Dist", (-driveTrain.getAverageDistance()/12)
+      "Snapshot Count", snapshotCount
       );
   }
 }
