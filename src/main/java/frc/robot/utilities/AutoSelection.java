@@ -3,7 +3,6 @@ package frc.robot.utilities;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
 import frc.robot.commands.AutoNavBouncePath;
-import frc.robot.commands.AutoNavSlalomPath;
 import frc.robot.commands.AutoOpponentTrenchPickup;
 import frc.robot.commands.AutoShootBackup;
 import frc.robot.commands.AutoShootForward;
@@ -16,6 +15,7 @@ import frc.robot.subsystems.*;
 import frc.robot.utilities.TrajectoryCache.TrajectoryType;
 import frc.robot.commands.DriveFollowTrajectory.PIDType;
 import frc.robot.Constants.CoordType;
+import frc.robot.Constants.StopType;
 
 
 
@@ -103,7 +103,7 @@ public class AutoSelection {
 
 		if (autoPlan == SLALOM_PATH){
 			log.writeLogEcho(true, "AutoSelect", "run SlalomPath");
-			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsoluteResetPose, trajectoryCache.cache[TrajectoryType.slalom.value], true, true, PIDType.kTalon, 
+			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsoluteResetPose, StopType.kBrake, trajectoryCache.cache[TrajectoryType.slalom.value], 
 			driveTrain, log);
 		}
 
