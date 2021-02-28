@@ -23,7 +23,7 @@ public class AutoShootForward extends SequentialCommandGroup {
    * 
    * @param waitTime       the time in seconds to wait before starting
    * @param driveTrain     drivetrain subsystem to use
-   * @param limeLight      limelight subsystem to use
+   * @param limeLight      limelightGoal subsystem to use
    * @param log            log subsystem to use
    * @param shooter        shooter subsystem to use
    * @param feeder         feeder subsystem to use
@@ -31,7 +31,7 @@ public class AutoShootForward extends SequentialCommandGroup {
    * @param intake         intake subsystem to use
    * @param led            led subsystem to use
    */
-  public AutoShootForward(double waitTime, boolean useVision, DriveTrain driveTrain, LimeLight limeLight, FileLog log, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LED led) {
+  public AutoShootForward(double waitTime, boolean useVision, DriveTrain driveTrain, LimeLightGoal limeLight, FileLog log, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LED led) {
 
     // can start anywhere on auto line between left most pole from driver perspective and close to right edge of the field, needs to be semi lined up with target
 

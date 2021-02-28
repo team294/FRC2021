@@ -8,20 +8,19 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.LimeLightGoal;
 import frc.robot.utilities.FileLog;
 
 public class LimeLightSetFlashlight extends CommandBase {
   /**
    * Creates a new LimeLightFlashlightSet.
    */
-  private LimeLight limeLight;
+  private LimeLightGoal limeLight;
   private FileLog log;
   private boolean on;
   private boolean end;
-
   
-  public LimeLightSetFlashlight(boolean on, boolean end, LimeLight limeLight, FileLog log) {
+  public LimeLightSetFlashlight(boolean on, boolean end, LimeLightGoal limeLight, FileLog log) {
     this.limeLight = limeLight;
     this.log = log;
     this.on = on;

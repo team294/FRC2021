@@ -25,10 +25,10 @@ public class ShootSequence extends SequentialCommandGroup {
    * @param feeder feeder subsystem
    * @param hopper hopper subsystem
    * @param intake intake subsystem
-   * @param limeLight limelight camera (subsystem)
+   * @param limeLight limelightGoal camera (subsystem)
    * @param led led strip (subsystem)
    */
-  public ShootSequence(boolean rpmFromDistance, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LimeLight limeLight, LED led, FileLog log) {
+  public ShootSequence(boolean rpmFromDistance, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LimeLightGoal limeLight, LED led, FileLog log) {
     addCommands(
       new ConditionalCommand(
           // If getting RPM from distance and within range to do unlocked hood shot,
@@ -151,10 +151,10 @@ public class ShootSequence extends SequentialCommandGroup {
    * @param feeder feeder subsystem
    * @param hopper hopper subsystem
    * @param intake intake subsystem
-   * @param limeLight limelight camera (subsystem)
+   * @param limeLightGoal limelight camera (subsystem)
    * @param led led strip (subsystem)
    */
-  public ShootSequence(Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LimeLight limeLight, LED led, FileLog log) {
+  public ShootSequence(Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LimeLightGoal limeLight, LED led, FileLog log) {
     addCommands( 
       parallel(
         // If hood is not open, wait 0.3 seconds before moving on from setting hood position.

@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.LED;
-import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.LimeLightGoal;
 import frc.robot.subsystems.Shooter;
 import frc.robot.utilities.FileLog;
 
@@ -23,10 +23,10 @@ public class ShootSequenceSetup extends SequentialCommandGroup {
    * Then set the shooter RPM either with the distance from the target or the default short shot RPM.
    * @param closeHood true = close the hood, false = open the hood
    * @param shooter shooter subsystem
-   * @param limeLight limelight camera (subsystem)
+   * @param limeLightGoal limelight camera (subsystem)
    * @param led led strip (subsystem)
    */
-  public ShootSequenceSetup(boolean closeHood, Shooter shooter, LimeLight limeLight, LED led, FileLog log) {
+  public ShootSequenceSetup(boolean closeHood, Shooter shooter, LimeLightGoal limeLight, LED led, FileLog log) {
     addCommands(
       // If the current distance away from the target is greater than the max distance for 
       // unlocking the hood or vision sees no target, close and lock the hood. 

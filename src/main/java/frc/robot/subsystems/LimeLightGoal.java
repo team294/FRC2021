@@ -8,23 +8,15 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.Relay;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.Relay.Direction;
 import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.LimeLightConstants;
 import frc.robot.utilities.FileLog;
-import frc.robot.utilities.Loggable;
-import frc.robot.utilities.RobotPreferences;
 import frc.robot.utilities.StringUtil;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import static frc.robot.Constants.LimeLightConstants.*;
 
-public class LimeLightVisionTarget extends LimeLight {
+public class LimeLightGoal extends LimeLight {
   private Relay flashlight = new Relay(relayFlashlight, Direction.kBoth);
   private LED led;
   private double sweetSpot;
@@ -41,12 +33,11 @@ public class LimeLightVisionTarget extends LimeLight {
    * send raw corners? : nah send raw contours: no crosshair mode: Single
    * crosshair x: 0 y: 0 ~~3d experimental~~ no changes
    */
-  public LimeLightVisionTarget(FileLog log, LED led, DriveTrain driveTrain) {
-    super("limelight", log);
+  public LimeLightGoal(FileLog log, LED led, DriveTrain driveTrain) {
+    super("Limelight", log);
     this.led = led;
     this.driveTrain = driveTrain;
   }
-
 
   /**
    * Distance from the robot to the shooting "sweet spot"
@@ -55,8 +46,6 @@ public class LimeLightVisionTarget extends LimeLight {
   public double getSweetSpot() {
     return sweetSpot;
   }
-
-  
 
   /**
    * Takes into account not being in line with the target.
@@ -122,10 +111,9 @@ public class LimeLightVisionTarget extends LimeLight {
       setFlashlight(true);
     }
     if (log.getLogRotation() == log.LIMELIGHT_CYCLE) {
-      //SmartDashboard.putNumber("Limelight dist", getDistance()); // distance assuming we are in line with the target
       SmartDashboard.putNumber(StringUtil.buildString(limelightName, " new distance"), getDistance()); // distance calculation using vision camera
-      SmartDashboard.putNumber("Limelight Actual dist", (-driveTrain.getAverageDistance()/12)); // distance calculation using drive encoders, used to test accuracy of getDistanceNew()
-      SmartDashboard.putNumber("Limelight sweet spot", sweetSpot);
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " Actual dist"), (-driveTrain.getAverageDistance()/12)); // distance calculation using drive encoders, used to test accuracy of getDistanceNew()
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " sweet spot"), sweetSpot);
     }
   }
   /**

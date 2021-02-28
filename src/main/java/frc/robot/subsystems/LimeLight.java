@@ -7,12 +7,8 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Relay.Direction;
-import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.utilities.FileLog;
@@ -123,7 +119,7 @@ public class LimeLight extends SubsystemBase implements Loggable {
       if(table.getEntry("snapshot").getDouble(0)==1) {
         snapshotCount++;
       }
-      log.writeLog(false, "LimeLight", "setSnapshot", "Snapshot Count", snapshotCount);
+      log.writeLog(false, limelightName, "setSnapshot", "Snapshot Count", snapshotCount);
 
       snapshotTimer.reset();
       snapshotTimer.start();
@@ -211,13 +207,13 @@ public class LimeLight extends SubsystemBase implements Loggable {
 
       // Invert X on SmartDashboard, since bars on SmartDashboard always go from - (left) to + (right)
       SmartDashboard.putNumber(StringUtil.buildString(limelightName, " x"), -x);
-      SmartDashboard.putNumber("LimeLight y", y);
-      SmartDashboard.putBoolean("Limelight Sees Target", seesTarget());
-      SmartDashboard.putBoolean("Limelight Updating", isGettingData());
-      SmartDashboard.putNumber("Limelight Latency", getLatency());
-      SmartDashboard.putNumber("Limelight Snapshot Count", snapshotCount);
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " y"), y);
+      SmartDashboard.putBoolean(StringUtil.buildString(limelightName, " Sees Target"), seesTarget());
+      SmartDashboard.putBoolean(StringUtil.buildString(limelightName, " Updating"), isGettingData());
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " Latency"), getLatency());
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " Snapshot Count"), snapshotCount);
       
-      pipe = SmartDashboard.getNumber("Pipeline", 0); // default is vision pipeline
+      pipe = SmartDashboard.getNumber(StringUtil.buildString(limelightName, " Pipeline"), 0); // default is vision pipeline
 
       if (getPipeline() != pipe) {
         log.writeLogEcho(false, limelightName, "Pipeline change", "Pipeline", pipe);

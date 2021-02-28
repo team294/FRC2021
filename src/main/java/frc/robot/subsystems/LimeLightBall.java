@@ -23,7 +23,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import static frc.robot.Constants.LimeLightConstants.*;
 
-public class LimeLightBallCamera extends LimeLight {
+public class LimeLightBall extends LimeLight {
   private static NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
   private static NetworkTable table = tableInstance.getTable("limelight");
   private NetworkTableEntry tv, tx, ty, ta, tl, pipeline;
@@ -45,7 +45,7 @@ public class LimeLightBallCamera extends LimeLight {
    * crosshair x: 0 y: 0 ~~3d experimental~~ no changes
    */
   
-  public LimeLightBallCamera(FileLog log, LED led, DriveTrain driveTrain) {
+  public LimeLightBall(FileLog log, LED led, DriveTrain driveTrain) {
     super(log, led, driveTrain);
     SmartDashboard.putNumber("Pipeline Ball Camera", 0);
   }
