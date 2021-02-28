@@ -34,7 +34,7 @@ public class LimeLightGoal extends LimeLight {
    * crosshair x: 0 y: 0 ~~3d experimental~~ no changes
    */
   public LimeLightGoal(FileLog log, LED led, DriveTrain driveTrain) {
-    super("Limelight", log);
+    super("limelight", log);
     this.led = led;
     this.driveTrain = driveTrain;
   }

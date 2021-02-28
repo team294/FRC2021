@@ -47,7 +47,7 @@ public class LimeLight extends SubsystemBase implements Loggable {
   public LimeLight(String tableName, FileLog log) {
     this.log = log;
     table = tableInstance.getTable(tableName);
-    limelightName = tableName;
+    limelightName = StringUtil.buildString(tableName.substring(0, 0).toUpperCase(), tableName.substring(1) );
     this.snapshotTimer = new Timer();
     snapshotTimer.reset();
     snapshotTimer.start();
@@ -200,9 +200,8 @@ public class LimeLight extends SubsystemBase implements Loggable {
     
     if (log.getLogRotation() == log.LIMELIGHT_CYCLE) {
 
-
       if(!isGettingData()) {
-        RobotPreferences.recordStickyFaults("LimeLight", log);
+        RobotPreferences.recordStickyFaults(limelightName, log);
       }
 
       // Invert X on SmartDashboard, since bars on SmartDashboard always go from - (left) to + (right)
