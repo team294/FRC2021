@@ -2,6 +2,9 @@ package frc.robot.utilities;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.trajectory.Trajectory;
+import frc.robot.commands.DriveFollowTrajectory;
+import frc.robot.commands.DriveFollowTrajectory.PIDType;
+import frc.robot.Constants.CoordType;
 import frc.robot.commands.AutoNavBouncePath;
 import frc.robot.commands.AutoOpponentTrenchPickup;
 import frc.robot.commands.AutoShootBackup;
@@ -9,14 +12,10 @@ import frc.robot.commands.AutoShootForward;
 import frc.robot.commands.AutoShortShot;
 import frc.robot.commands.AutoOwnTrenchPickup;
 import frc.robot.commands.AutoTrussPickup;
-import frc.robot.commands.DriveFollowTrajectory;
 import frc.robot.commands.Wait;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.TrajectoryCache.TrajectoryType;
-import frc.robot.commands.DriveFollowTrajectory.PIDType;
-import frc.robot.Constants.CoordType;
 import frc.robot.Constants.StopType;
-
 
 
 /**
@@ -32,6 +31,7 @@ public class AutoSelection {
 	public static final int SHORT_SHOT = 5;
 	public static final int BOUNCE_PATH = 6;
 	public static final int SLALOM_PATH = 7;
+	public static final int BARREL_RACING = 8;
 	
 	private TrajectoryCache trajectoryCache;
 	
@@ -104,9 +104,15 @@ public class AutoSelection {
 		if (autoPlan == SLALOM_PATH){
 			log.writeLogEcho(true, "AutoSelect", "run SlalomPath");
 			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsoluteResetPose, StopType.kBrake, trajectoryCache.cache[TrajectoryType.slalom.value], 
-			driveTrain, log);
+				driveTrain, log);
 		}
 
+		if (autoPlan == BARREL_RACING){
+			log.writeLogEcho(true, "AutoSelect", "run BarrelRacing");
+			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsoluteResetPose, StopType.kBrake, trajectoryCache.cache[TrajectoryType.barrelRacing.value], 
+				driveTrain, log);
+		}
+		
 		if (autonomousCommand == null) {
 			log.writeLogEcho(true, "AutoSelect", "No autocommand found");
 			autonomousCommand = new Wait(1);

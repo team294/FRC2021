@@ -35,7 +35,8 @@ public class TrajectoryCache {
         bounceA3ToA6(4),
         bounceA6ToA9(5),
         bounceA9ToF(6),
-        slalom(7);
+        slalom(7),
+        barrelRacing(8);
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;
@@ -148,7 +149,24 @@ public class TrajectoryCache {
             new Pose2d(1.25, 2.486, new Rotation2d(Math.toRadians(180.0)))
         );
 
-        
+        cache[TrajectoryType.barrelRacing.value] = calcTrajectory("Barrel Racing", 0.4, 0.6, false, 
+            new Pose2d(1.092, 2.286, new Rotation2d(Math.toRadians(0.0))),
+            List.of(new Translation2d(3.81, 2.22),
+                    new Translation2d(4.51, 1.52),
+                    new Translation2d(3.81, 0.82),
+                    new Translation2d(3.11, 1.52),
+                    new Translation2d(3.81, 2.22),
+                    new Translation2d(6.09, 2.34),
+                    new Translation2d(6.79, 3.04),
+                    new Translation2d(6.09, 3.74),
+                    new Translation2d(5.39, 3.04),
+                    new Translation2d(6.0, 2.14),
+                    new Translation2d(6.8, 1.32),
+                    new Translation2d(7.62, 0.82),
+                    new Translation2d(8.5, 1),
+                    new Translation2d(7.62, 2.22)),
+            new Pose2d(1.04, 2.54, new Rotation2d(Math.toRadians(180.0)))
+        );
     }
 
 
