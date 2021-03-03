@@ -9,9 +9,14 @@ import frc.robot.commands.AutoShootForward;
 import frc.robot.commands.AutoShortShot;
 import frc.robot.commands.AutoOwnTrenchPickup;
 import frc.robot.commands.AutoTrussPickup;
+import frc.robot.commands.DriveFollowTrajectory;
 import frc.robot.commands.Wait;
 import frc.robot.subsystems.*;
 import frc.robot.utilities.TrajectoryCache.TrajectoryType;
+import frc.robot.commands.DriveFollowTrajectory.PIDType;
+import frc.robot.Constants.CoordType;
+import frc.robot.Constants.StopType;
+
 
 
 /**
@@ -26,6 +31,7 @@ public class AutoSelection {
 	public static final int SHOOT_FORWARD = 4;
 	public static final int SHORT_SHOT = 5;
 	public static final int BOUNCE_PATH = 6;
+	public static final int SLALOM_PATH = 7;
 	
 	private TrajectoryCache trajectoryCache;
 	
@@ -39,20 +45,23 @@ public class AutoSelection {
 
 	/**
 	 * Gets the auto command based upon input from the shuffleboard
-	 * @param waitTime The time to wait before starting the auto routines
-	 * @param useVision true = use vision, false = don't use vision
-	 * @param autoPlan The autoplan to run 
-	 * @param driveTrain  The driveTrain that will be passed to the auto command
+	 * 
+	 * @param waitTime   The time to wait before starting the auto routines
+	 * @param useVision  true = use vision, false = don't use vision
+	 * @param autoPlan   The autoplan to run
+	 * @param driveTrain The driveTrain that will be passed to the auto command
 	 * @param shooter
 	 * @param feeder
 	 * @param hopper
 	 * @param intake
 	 * @param limeLight
-	 * @param log The filelog to write the logs to
+	 * @param log        The filelog to write the logs to
 	 * @param led
+	 * @param CoordType
 	 * @return the command to run
 	 */
-	public Command getAutoCommand(double waitTime, boolean useVision, Integer autoPlan, DriveTrain driveTrain, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LimeLight limeLight, FileLog log, LED led) {
+	public Command getAutoCommand(double waitTime, boolean useVision, Integer autoPlan, DriveTrain driveTrain,
+			Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LimeLight limeLight, FileLog log, LED led) {
 		Command autonomousCommand = null;
 		Trajectory trajectory;
 
@@ -92,10 +101,17 @@ public class AutoSelection {
 			autonomousCommand = new AutoNavBouncePath(trajectoryCache, driveTrain, log);
 		}
 
+		if (autoPlan == SLALOM_PATH){
+			log.writeLogEcho(true, "AutoSelect", "run SlalomPath");
+			autonomousCommand = new DriveFollowTrajectory(CoordType.kAbsoluteResetPose, StopType.kBrake, trajectoryCache.cache[TrajectoryType.slalom.value], 
+			driveTrain, log);
+		}
+
 		if (autonomousCommand == null) {
 			log.writeLogEcho(true, "AutoSelect", "No autocommand found");
 			autonomousCommand = new Wait(1);
 		}
+
 
 		return autonomousCommand;
 	}

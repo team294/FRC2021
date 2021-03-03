@@ -24,7 +24,7 @@ import frc.robot.Constants.DriveConstants;
 public class TrajectoryCache {
     private FileLog log;
    
-    private static int trajectoryCount = 7;
+    private static int trajectoryCount = 9;
     public Trajectory[] cache = new Trajectory[trajectoryCount];
 
     public enum TrajectoryType {
@@ -34,7 +34,8 @@ public class TrajectoryCache {
         bounceSToA3(3),
         bounceA3ToA6(4),
         bounceA6ToA9(5),
-        bounceA9ToF(6);
+        bounceA9ToF(6),
+        slalom(7);
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;
@@ -128,6 +129,26 @@ public class TrajectoryCache {
             List.of(),
             new Pose2d(7.8, 2.286, new Rotation2d(Math.toRadians(180.0)))
         );
+
+        cache[TrajectoryType.slalom.value] = calcTrajectory("Slalom", 0.4, 0.5, false, 
+            new Pose2d(0.762, 0.762, new Rotation2d(Math.toRadians(0.0))),
+            List.of(new Translation2d(1.905, 0.8),
+                    new Translation2d(2.85, 2.5),
+                    new Translation2d(4.572, 3.048),
+                    new Translation2d(6.096, 2.6),
+                    new Translation2d(6.858, 1.524),
+                    new Translation2d(7.62, 0.762),
+                    new Translation2d(8.382, 1.524),
+                    new Translation2d(7.45, 2.6),
+                    new Translation2d(6.75, 1.524),
+                    new Translation2d(6.096, 0.448),
+                    new Translation2d(4.572, 0),
+                    new Translation2d(2.85, 0.548),
+                    new Translation2d(1.905, 2.1)),
+            new Pose2d(1.25, 2.486, new Rotation2d(Math.toRadians(180.0)))
+        );
+
+        
     }
 
 
