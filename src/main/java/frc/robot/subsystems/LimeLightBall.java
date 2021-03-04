@@ -49,6 +49,11 @@ public class LimeLightBall extends LimeLight {
    * @return distance from camera to target, on the floor, in feet
    */
   public TrajectoryType getGalacticPath() {    
+    // TODO Update this method to return a SearchType instead of a TrajectoryType.
+    // TODO Remove TrajectoryType "galacticNull" from TrajectoryCache.
+    // TODO Add SearchType = "NotFound" (in Constants)
+    // TODO Add SearchType = "NotFound" in the main "if" statement in the AutoGalacticSearch command (just do a wait command)
+
     TrajectoryType myTrajectory = TrajectoryType.galacticNull;
 
     if (!seesTarget()){
