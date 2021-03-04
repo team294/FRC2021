@@ -39,7 +39,7 @@ public final class Constants {
         public static final int pcmShooterLockPiston = 6; // lock and unlock hood angle
         public static final double shooterDefaultRPM = 2800;
         public static final double shooterDefaultTrenchRPM = 3000;
-        public static final double shooterDefaultShortRPM = 1400;
+        public static final double shooterDefaultShortRPM = 1450; // originally 1400 in competition
         //public static final double voltageCheck = 7.5; // voltage the shooter will reach if power cell is shot (for
                                                        // counting power cells)
         public static final int dioPowerCell = 9;
@@ -47,7 +47,8 @@ public final class Constants {
         // public static final double currentCheck = 60; // voltage the shooter will reach if power cell is shot (for counting power cells)
         public static final double hopperPercentCheck = 0.3; // percent output hopper will reach once it is running (for counting power cells)
         
-        public static final double[][] distanceFromTargetToRPMTable = {{4,1400*1.1},{5,1500*1.1},{10,2500*1.1},{15,2900*1.1},{20,2900*1.1},{25,3100*1.1},{30,3200*1.1}};
+        public static final double[][] distanceFromTargetToRPMTable = {{5,1450},{10,2300},{15,2400},{20,2450},{25,2550}};
+        // Original table: {{4,1400*1.1},{5,1500*1.1},{10,2500*1.1},{15,2900*1.1},{20,2900*1.1},{25,3100*1.1},{30,3200*1.1}};
         // TODO figure out max distance of robot from target so table includes all necessary values
 
         public static final double maxSecondsToShoot3balls = 5.0; // max time to wait while shooting 3 balls. use this in commands to timeout
