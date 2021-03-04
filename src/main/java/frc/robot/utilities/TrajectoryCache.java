@@ -24,7 +24,7 @@ import frc.robot.Constants.DriveConstants;
 public class TrajectoryCache {
     private FileLog log;
    
-    private static int trajectoryCount = 11;
+    private static int trajectoryCount = 12;
     public Trajectory[] cache = new Trajectory[trajectoryCount];
 
     public enum TrajectoryType {
@@ -38,7 +38,8 @@ public class TrajectoryCache {
         galacticRedA(7),
         galacticBlueA(8),
         galacticRedB(9),
-        galacticBlueB(10);
+        galacticBlueB(10),
+        galacticNull(11);
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;
@@ -164,6 +165,13 @@ public class TrajectoryCache {
                     new Translation2d(7.62, 1.524)),
             new Pose2d(8.382, 0.762, new Rotation2d(Math.toRadians(-45.0)))
         );
+
+        cache[TrajectoryType.galacticNull.value] = calcTrajectory("Galactic Null", 0.4, 0.4, false, 
+        new Pose2d(0.762, 0.762, new Rotation2d(Math.toRadians(0.0))),
+        List.of(),
+        new Pose2d(0.772, 0.762, new Rotation2d(Math.toRadians(0.0)))
+        );
+
     }
 
 

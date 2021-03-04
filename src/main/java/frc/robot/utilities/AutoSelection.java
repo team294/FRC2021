@@ -35,6 +35,7 @@ public class AutoSelection {
 	public static final int BLUE_A = 8;
 	public static final int RED_B = 9;
 	public static final int BLUE_B = 10;
+	public static final int GALACTIC_CAMERA = 11;
 	
 	private TrajectoryCache trajectoryCache;
 	
@@ -121,10 +122,13 @@ public class AutoSelection {
 			autonomousCommand = new AutoGalacticSearch(SearchType.kBlueB,trajectoryCache, driveTrain, log, intake);
 		}
 
+		
 		if (autonomousCommand == null) {
 			log.writeLogEcho(true, "AutoSelect", "No autocommand found");
 			autonomousCommand = new Wait(1);
 		}
+
+		
 
 		return autonomousCommand;
 	}

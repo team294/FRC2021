@@ -164,9 +164,7 @@ public class LimeLight extends SubsystemBase implements Loggable {
     return (x != (1000 * LimeLightConstants.angleMultiplier) && y != 1000);
   }
 
-  @Override
-  public void periodic() {
-    // read values periodically
+  public void readData () {
     double targetExistsNew, xNew, yNew, areaNew, latencyNew; 
     targetExistsNew = tv.getDouble(1000.0);
     xNew = -tx.getDouble(1000.0) * LimeLightConstants.angleMultiplier;
@@ -193,6 +191,11 @@ public class LimeLight extends SubsystemBase implements Loggable {
     } while(networkTableReadCounter<= 5 && (targetExistsNew != targetExists || xNew != x || yNew != y
     || areaNew != area || latencyNew != latency));
 
+  }
+
+  @Override
+  public void periodic() {
+    readData();
     
     if (fastLogging || log.getLogRotation() == log.LIMELIGHT_CYCLE) {
       updateLimeLightLog(false);
