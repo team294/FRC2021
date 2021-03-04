@@ -49,6 +49,7 @@ public class RobotContainer {
   private final Shooter shooter = new Shooter(hopper, log, tempCheck, led);
   private final DriveTrain driveTrain = new DriveTrain(log, tempCheck);
   private final LimeLightGoal limeLightGoal = new LimeLightGoal(log, led, driveTrain);
+  private final LimeLightBall limeLightBall = new LimeLightBall(log);
 
   private final TrajectoryCache trajectoryCache = new TrajectoryCache(log);
   private final AutoSelection autoSelection = new AutoSelection(trajectoryCache, log);
@@ -183,7 +184,7 @@ public class RobotContainer {
     SmartDashboard.putData("ZeroOdometry", new DriveResetPose(0, 0, 0, driveTrain, log));
     SmartDashboard.putData("Drive Trajectory Relative", new DriveFollowTrajectory(CoordType.kRelative, StopType.kBrake, trajectoryCache.cache[TrajectoryType.test.value], false, PIDType.kTalon, driveTrain, log));
     SmartDashboard.putData("Drive Trajectory Curve Relative", new DriveFollowTrajectory(CoordType.kRelative, StopType.kBrake, trajectoryCache.cache[TrajectoryType.testCurve.value], false, PIDType.kTalon, driveTrain, log));
-    SmartDashboard.putData("Drive Trajectory Absolute", new DriveFollowTrajectory(CoordType.kAbsolute, StopType.kBrake, trajectoryCache.cache[TrajectoryType.test.value], driveTrain, log));
+    SmartDashboard.putData("Drive Trajectory Absolute", new DriveFollowTrajectory(CoordType.kAbsolute, StopType.kBrake, trajectoryCache.cache[TrajectoryType.test.value], driveTrain, log));  
 
     // Auto Nav
     SmartDashboard.putData("AutoNav Bounce Path", new AutoNavBouncePath(trajectoryCache, driveTrain, log));
@@ -196,6 +197,9 @@ public class RobotContainer {
     autoChooser.addOption("OwnTrenchPickup", AutoSelection.OWN_TRENCH_PICKUP);
     autoChooser.addOption("ShortShot", AutoSelection.SHORT_SHOT);
     autoChooser.addOption("BouncePath", AutoSelection.BOUNCE_PATH);
+    autoChooser.addOption("SlalomPath", AutoSelection.SLALOM_PATH);
+    autoChooser.addOption("BarrelRacing", AutoSelection.BARREL_RACING);
+    autoChooser.addOption("GalacticCamera", AutoSelection.GALACTIC_CAMERA);
     autoChooser.addOption("GalacticRedA", AutoSelection.RED_A);
     autoChooser.addOption("GalacticBlueA", AutoSelection.BLUE_A);
     autoChooser.addOption("GalacticRedB", AutoSelection.RED_B);
@@ -368,7 +372,8 @@ public class RobotContainer {
     autoDelay = SmartDashboard.getNumber("Autonomous delay", 0);
     autoDelay = (autoDelay < 0) ? 0 : autoDelay; // make sure autoDelay isn't negative
     autoDelay = (autoDelay > 15) ? 15 : autoDelay; // make sure autoDelay is only active during auto
-    return autoSelection.getAutoCommand(autoDelay, autoUseVision, autoChooser.getSelected(), driveTrain, shooter, feeder, hopper, intake, limeLightGoal, log, led);
+    return autoSelection.getAutoCommand(autoDelay, autoUseVision, autoChooser.getSelected(), driveTrain, 
+      shooter, feeder, hopper, intake, limeLightGoal, limeLightBall, log, led);
   }
 
   /**
