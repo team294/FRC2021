@@ -42,6 +42,9 @@ public class LimeLightBall extends LimeLight {
     ty0 = table.getEntry("ty0");
     ty1 = table.getEntry("ty1");
     ty2 = table.getEntry("ty2");
+
+    SmartDashboard.putNumber(StringUtil.buildString(limelightName, " Pipeline"), 4);
+    setPipe(4);
   }
 
   
@@ -56,9 +59,9 @@ public class LimeLightBall extends LimeLight {
 
     if (!seesTarget()){
       mySearch = SearchType.kNull;
-    } else if(area > 0.25 && x < 0){
+    } else if(area > 0.6 && x < -0.2){
       mySearch = SearchType.kRedB;
-    } else if (area > 0.25 &&  x > 0) {
+    } else if (area > 0.6 &&  x >= -0.2) {
       mySearch = SearchType.kRedA;
     } else if (x < 0){
       mySearch = SearchType.kBlueB;

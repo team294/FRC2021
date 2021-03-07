@@ -208,6 +208,7 @@ public class LimeLight extends SubsystemBase implements Loggable {
       }
 
       // Invert X on SmartDashboard, since bars on SmartDashboard always go from - (left) to + (right)
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " area"), area);
       SmartDashboard.putNumber(StringUtil.buildString(limelightName, " x"), -x);
       SmartDashboard.putNumber(StringUtil.buildString(limelightName, " y"), y);
       SmartDashboard.putBoolean(StringUtil.buildString(limelightName, " Sees Target"), seesTarget());
