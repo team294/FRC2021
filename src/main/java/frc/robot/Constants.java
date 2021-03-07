@@ -125,7 +125,8 @@ public final class Constants {
         kRedA(0),
         kRedB(1),
         kBlueA(2),
-        kBlueB(3);
+        kBlueB(3),
+        kNull(4);
 
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;

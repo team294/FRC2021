@@ -8,6 +8,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.SearchType;
 import frc.robot.utilities.FileLog;
 import frc.robot.utilities.StringUtil;
 import frc.robot.utilities.TrajectoryCache.TrajectoryType;
@@ -48,27 +49,24 @@ public class LimeLightBall extends LimeLight {
    * Takes into account not being in line with the target.
    * @return distance from camera to target, on the floor, in feet
    */
-  public TrajectoryType getGalacticPath() {    
-    // TODO Update this method to return a SearchType instead of a TrajectoryType.
-    // TODO Remove TrajectoryType "galacticNull" from TrajectoryCache.
-    // TODO Add SearchType = "NotFound" (in Constants)
-    // TODO Add SearchType = "NotFound" in the main "if" statement in the AutoGalacticSearch command (just do a wait command)
+  public SearchType getGalacticPath() {    
 
-    TrajectoryType myTrajectory = TrajectoryType.galacticNull;
+    
+    SearchType mySearch = SearchType.kNull;
 
     if (!seesTarget()){
-      myTrajectory = TrajectoryType.galacticNull;
+      mySearch = SearchType.kNull;
     } else if(area > 0.25 && x < 0){
-      myTrajectory = TrajectoryType.galacticRedB;
+      mySearch = SearchType.kRedB;
     } else if (area > 0.25 &&  x > 0) {
-      myTrajectory = TrajectoryType.galacticRedA;
+      mySearch = SearchType.kRedA;
     } else if (x < 0){
-      myTrajectory = TrajectoryType.galacticBlueB;
+      mySearch = SearchType.kBlueB;
     } else {
-      myTrajectory = TrajectoryType.galacticBlueA;
+      mySearch = SearchType.kBlueA;
     }
 
-     return myTrajectory;
+     return mySearch;
   }
 
 

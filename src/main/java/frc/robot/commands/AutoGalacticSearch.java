@@ -67,5 +67,13 @@ public class AutoGalacticSearch extends SequentialCommandGroup {
       );
     }
 
+    if(path == SearchType.kNull){
+      addCommands(
+        parallel(
+          new Wait(1)
+        ) 
+        );
+    }
+
   }
 }

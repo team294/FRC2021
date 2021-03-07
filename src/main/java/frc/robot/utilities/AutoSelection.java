@@ -119,6 +119,11 @@ public class AutoSelection {
 				driveTrain, log);
 		}
 
+		if (autoPlan == GALACTIC_CAMERA) {
+			log.writeLogEcho(true, "AutoSelect", "run Galactic Camera");
+			autonomousCommand = new AutoGalacticSearch(limeLightBall.getGalacticPath(), trajectoryCache, driveTrain, log, intake);
+		}
+
 		if (autoPlan == RED_A && trajectoryCache.cache[TrajectoryType.galacticRedA.value] != null) {
 			log.writeLogEcho(true, "AutoSelect", "run Galactic Red A");
 			autonomousCommand = new AutoGalacticSearch(SearchType.kRedA, trajectoryCache, driveTrain, log, intake);

@@ -205,11 +205,7 @@ public class TrajectoryCache {
             new Pose2d(8.382, 0.762, new Rotation2d(Math.toRadians(-45.0)))
         );
 
-        cache[TrajectoryType.galacticNull.value] = calcTrajectory("Galactic Null", 0.4, 0.4, false, 
-        new Pose2d(0.762, 0.762, new Rotation2d(Math.toRadians(0.0))),
-        List.of(),
-        new Pose2d(0.772, 0.762, new Rotation2d(Math.toRadians(0.0)))
-        );
+        
 
     }
 
