@@ -20,7 +20,7 @@ public class AutoOwnTrenchPickup extends SequentialCommandGroup {
 
 // start with front two wheels on auto line drive frame 14 in from the right wall driver perspective
 
-  public AutoOwnTrenchPickup(double waitTime, boolean useVision, DriveTrain driveTrain, LimeLight limeLight, FileLog log, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LED led) {
+  public AutoOwnTrenchPickup(double waitTime, boolean useVision, DriveTrain driveTrain, LimeLightGoal limeLight, FileLog log, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LED led) {
     
     addCommands(
       

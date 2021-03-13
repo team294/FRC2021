@@ -7,12 +7,8 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.Relay.Direction;
-import edu.wpi.first.wpilibj.Relay.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.utilities.FileLog;
@@ -22,22 +18,21 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import static frc.robot.Constants.LimeLightConstants.*;
+import frc.robot.utilities.StringUtil;
 
 public class LimeLight extends SubsystemBase implements Loggable {
-  private static NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
-  private static NetworkTable table = tableInstance.getTable("limelight");
-  private NetworkTableEntry tv, tx, ty, ta, tl, pipeline;
-  private double targetExists, x, y, area, latency, pipe;
-  private Relay flashlight = new Relay(relayFlashlight, Direction.kBoth);
-  private FileLog log;
-  private LED led;
-  private double sweetSpot;
-  private Timer snapshotTimer;
-  private int snapshotCount = 0;
-  private int networkTableReadCounter = 0;
-  private boolean setFlashAuto = true;
-  private boolean fastLogging = false;
-  private DriveTrain driveTrain; // for testing distance calculation TODO take out once dist calc is finished
+  private NetworkTableInstance tableInstance = NetworkTableInstance.getDefault();
+  protected NetworkTable table;
+  protected NetworkTableEntry tv, tx, ty, ta, tl, pipeline;
+  protected String limelightName;
+  protected double targetExists, x, y, area;
+  protected double latency;
+  protected double pipe;
+  protected FileLog log;
+  protected Timer snapshotTimer;
+  protected int snapshotCount = 0;
+  protected int networkTableReadCounter = 0;
+  protected boolean fastLogging = false;
 
   /*
    * Limelight settings: ~~input~~ Exposure: 2 Black level offset: 0 red balance:
@@ -49,22 +44,20 @@ public class LimeLight extends SubsystemBase implements Loggable {
    * send raw corners? : nah send raw contours: no crosshair mode: Single
    * crosshair x: 0 y: 0 ~~3d experimental~~ no changes
    */
-  public LimeLight(FileLog log, LED led, DriveTrain driveTrain) {
+  public LimeLight(String tableName, FileLog log) {
     this.log = log;
-    this.led = led;
+    table = tableInstance.getTable(tableName);
+    limelightName = StringUtil.buildString(tableName.substring(0, 0).toUpperCase(), tableName.substring(1) );
     this.snapshotTimer = new Timer();
     snapshotTimer.reset();
     snapshotTimer.start();
-    this.driveTrain = driveTrain;
     tableInstance.startClientTeam(294);
-
     tv = table.getEntry("tv");
     tx = table.getEntry("tx");
     ty = table.getEntry("ty");
     ta = table.getEntry("ta");
     tl = table.getEntry("tl");
     pipeline = table.getEntry("pipeline");
-    SmartDashboard.putNumber("Pipeline", 0);
   }
 
   /**
@@ -91,29 +84,13 @@ public class LimeLight extends SubsystemBase implements Loggable {
   }
 
   /**
-   * Distance from the robot to the shooting "sweet spot"
-   * @return distance to the "sweet spot", in feet (+ = move towards target)
-   */
-  public double getSweetSpot() {
-    return sweetSpot;
-  }
-
-  /**
    * @return latency contribution by pipeline
    */
   public double getLatency() {
     return latency;
   }
 
-  /**
-   * Takes into account not being in line with the target.
-   * @return distance from camera to target, on the floor, in feet
-   */
-  public double getDistance() {    //  TODO  this could return a erroneous value if vision misses a frame or is temporarily blocked.  Use avgrging or filtering
-    double myDistance = (targetHeight - cameraHeight) / ((Math.tan(Math.toRadians(cameraAngle + y))) * (Math.cos(Math.toRadians(x))));
-    return myDistance;
-  }
-
+  
   /**
    * @return current pipeline number
    */
@@ -142,7 +119,7 @@ public class LimeLight extends SubsystemBase implements Loggable {
       if(table.getEntry("snapshot").getDouble(0)==1) {
         snapshotCount++;
       }
-      log.writeLog(false, "LimeLight", "setSnapshot", "Snapshot Count", snapshotCount);
+      log.writeLog(false, limelightName, "setSnapshot", "Snapshot Count", snapshotCount);
 
       snapshotTimer.reset();
       snapshotTimer.start();
@@ -169,44 +146,8 @@ public class LimeLight extends SubsystemBase implements Loggable {
     snapshotCount = 0;
   }
 
-  /**
-   * @param on true = turn on the flashlight, false = turns off the flashlight
-   */
-  public void setFlashlight(boolean on) {
-    if(on) {
-      flashlight.set(Value.kForward);
-    } else {
-      flashlight.set(Value.kReverse);
-    }
-  }
 
-  /**
-   * @param auto true = automatically turn on the flashlight when we lose vision
-   * false = allow driver to turn flashlight on/off
-   */
-  public void setFlashlightAuto(boolean auto) {
-    setFlashAuto = auto;
-  }
-
-  /**
-   * Choose which LED pattern to display, based on the x offset from camera.
-   * @return Color array of the pattern
-   */
-  public Color[] makePattern() {
-    Color[] myPattern = new Color[16];
-    int patternFormula = (int)(-x + 7);
-    if (patternFormula < 0) {
-      patternFormula = 0;
-    } else if (patternFormula > 14) {
-      patternFormula = 14;
-    }
-
-    myPattern = LED.visionTargetLibrary[patternFormula];
-    if (!seesTarget()) {
-      myPattern = LED.visionTargetLibrary[15];
-    }
-    return myPattern;
-  }
+ 
 //TODO increase limelight logging and edit seesTarget to check last three periodic for target
   /**
    * @return true when limelight sees a target, false when not seeing a target
@@ -223,9 +164,7 @@ public class LimeLight extends SubsystemBase implements Loggable {
     return (x != (1000 * LimeLightConstants.angleMultiplier) && y != 1000);
   }
 
-  @Override
-  public void periodic() {
-    // read values periodically
+  public void readData () {
     double targetExistsNew, xNew, yNew, areaNew, latencyNew; 
     targetExistsNew = tv.getDouble(1000.0);
     xNew = -tx.getDouble(1000.0) * LimeLightConstants.angleMultiplier;
@@ -252,17 +191,11 @@ public class LimeLight extends SubsystemBase implements Loggable {
     } while(networkTableReadCounter<= 5 && (targetExistsNew != targetExists || xNew != x || yNew != y
     || areaNew != area || latencyNew != latency));
 
-    sweetSpot = getDistance() - endDistance;
+  }
 
-    if (makePattern() == LED.visionTargetLibrary[15]) {
-      led.setPattern(makePattern(), 0.1, 0);
-    } else {
-      led.setPattern(makePattern(), 0.5, 0);
-    }
-
-    if(!isGettingData() && setFlashAuto) {
-      setFlashlight(true);
-    }
+  @Override
+  public void periodic() {
+    readData();
     
     if (fastLogging || log.getLogRotation() == log.LIMELIGHT_CYCLE) {
       updateLimeLightLog(false);
@@ -270,27 +203,23 @@ public class LimeLight extends SubsystemBase implements Loggable {
     
     if (log.getLogRotation() == log.LIMELIGHT_CYCLE) {
 
-
       if(!isGettingData()) {
-        RobotPreferences.recordStickyFaults("LimeLight", log);
+        RobotPreferences.recordStickyFaults(limelightName, log);
       }
 
       // Invert X on SmartDashboard, since bars on SmartDashboard always go from - (left) to + (right)
-      SmartDashboard.putNumber("LimeLight x", -x);
-      SmartDashboard.putNumber("LimeLight y", y);
-      SmartDashboard.putBoolean("Limelight Sees Target", seesTarget());
-      //SmartDashboard.putNumber("Limelight dist", getDistance()); // distance assuming we are in line with the target
-      SmartDashboard.putNumber("Limelight new distance", getDistance()); // distance calculation using vision camera
-      SmartDashboard.putNumber("Limelight Actual dist", (-driveTrain.getAverageDistance()/12)); // distance calculation using drive encoders, used to test accuracy of getDistanceNew()
-      SmartDashboard.putNumber("Limelight sweet spot", sweetSpot);
-      SmartDashboard.putBoolean("Limelight Updating", isGettingData());
-      SmartDashboard.putNumber("Limelight Latency", getLatency());
-      SmartDashboard.putNumber("Limelight Snapshot Count", snapshotCount);
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " area"), area);
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " x"), -x);
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " y"), y);
+      SmartDashboard.putBoolean(StringUtil.buildString(limelightName, " Sees Target"), seesTarget());
+      SmartDashboard.putBoolean(StringUtil.buildString(limelightName, " Updating"), isGettingData());
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " Latency"), getLatency());
+      SmartDashboard.putNumber(StringUtil.buildString(limelightName, " Snapshot Count"), snapshotCount);
       
-      pipe = SmartDashboard.getNumber("Pipeline", 0); // default is vision pipeline
+      pipe = SmartDashboard.getNumber(StringUtil.buildString(limelightName, " Pipeline"), 0); // default is vision pipeline
 
       if (getPipeline() != pipe) {
-        log.writeLogEcho(false, "LimeLight", "Pipeline change", "Pipeline", pipe);
+        log.writeLogEcho(false, limelightName, "Pipeline change", "Pipeline", pipe);
         setPipe(pipe);
       }
     }
@@ -306,15 +235,14 @@ public class LimeLight extends SubsystemBase implements Loggable {
    * @param logWhenDisabled true = log when disabled, false = discard the string
    */
   public void updateLimeLightLog(boolean logWhenDisabled) {
-    log.writeLog(logWhenDisabled, "LimeLight", "Update Variables", 
+    log.writeLog(logWhenDisabled, limelightName, "Update Variables", 
       "Target Valid", seesTarget(),
       "Center Offset X", x, 
       "Center Offset Y", y,
       "Target Area", area,
       "Latency", latency,
       "Network Table Read Counter", networkTableReadCounter,
-      "Snapshot Count", snapshotCount,
-      "Dist", getDistance(), "Encoder Dist", (-driveTrain.getAverageDistance()/12)
+      "Snapshot Count", snapshotCount
       );
   }
 }

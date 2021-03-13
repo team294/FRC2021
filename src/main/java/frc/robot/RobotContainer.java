@@ -48,7 +48,8 @@ public class RobotContainer {
   private final Climb climb = new Climb(log);
   private final Shooter shooter = new Shooter(hopper, log, tempCheck, led);
   private final DriveTrain driveTrain = new DriveTrain(log, tempCheck);
-  private final LimeLight limeLight = new LimeLight(log, led, driveTrain);
+  private final LimeLightGoal limeLightGoal = new LimeLightGoal(log, led, driveTrain);
+  private final LimeLightBall limeLightBall = new LimeLightBall(log);
 
   private final TrajectoryCache trajectoryCache = new TrajectoryCache(log);
   private final AutoSelection autoSelection = new AutoSelection(trajectoryCache, log);
@@ -81,13 +82,13 @@ public class RobotContainer {
    */
   public void configureShuffleboard() {
     // shooter subsystem
-    SmartDashboard.putData("Shooter Manual SetPoint", new ShooterSetPID(false, true, shooter, limeLight, led, log));
+    SmartDashboard.putData("Shooter Manual SetPoint", new ShooterSetPID(false, true, shooter, limeLightGoal, led, log));
     SmartDashboard.putData("Shooter STOP", new ShooterSetVoltage(0, shooter, log));
     SmartDashboard.putNumber("Shooter Manual SetPoint RPM", 2800);
     SmartDashboard.putData("Shooter Forward Calibrate", new ShooterSetVoltage(5, shooter, log));
 
     // shooter distance to RPM test
-    SmartDashboard.putData("Shooter Distance SetPoint", new ShooterSetPID(true, true, shooter, limeLight, led, log));
+    SmartDashboard.putData("Shooter Distance SetPoint", new ShooterSetPID(true, true, shooter, limeLightGoal, led, log));
     SmartDashboard.putNumber("Shooter Distance", 5);
     SmartDashboard.putData("Shooter DistToRPM", new ShooterDistToRPM(shooter, log));
     SmartDashboard.putNumber("Shooter RPM from Dist", 0);
@@ -125,16 +126,16 @@ public class RobotContainer {
     SmartDashboard.putData("ClimbPistons RETRACT", new ClimbPistonsSetPosition(false, climb, log));
     
     // limelight subsystem
-    SmartDashboard.putData("Limelight Reset Snapshot Count", new LimeLightSnapshotCountReset(limeLight, log));
-    SmartDashboard.putData("Limelight Flashlight On", new LimeLightSetFlashlight(true, true, limeLight, log));
-    SmartDashboard.putData("Limelight Flashlight Off", new LimeLightSetFlashlight(false, true, limeLight, log));
-    SmartDashboard.putData("Limelight FastLogging On", new LogEnableFastLogging(true, limeLight, log));
-    SmartDashboard.putData("Limelight FastLogging Off", new LogEnableFastLogging(false, limeLight, log));
+    SmartDashboard.putData("Limelight Reset Snapshot Count", new LimeLightSnapshotCountReset(limeLightGoal, log));
+    SmartDashboard.putData("Limelight Flashlight On", new LimeLightSetFlashlight(true, true, limeLightGoal, log));
+    SmartDashboard.putData("Limelight Flashlight Off", new LimeLightSetFlashlight(false, true, limeLightGoal, log));
+    SmartDashboard.putData("Limelight FastLogging On", new LogEnableFastLogging(true, limeLightGoal, log));
+    SmartDashboard.putData("Limelight FastLogging Off", new LogEnableFastLogging(false, limeLightGoal, log));
     //SmartDashboard.putData("Limelight Snapshot Test" , new LimeLightSnapshotTest(limeLight)); // uncomment if limelight snapshot-taking has to be tested
 
     // command sequences
     SmartDashboard.putData("ShootSequence 2800", new ShootSequence(2800, shooter, feeder, hopper, intake, led, log));
-    SmartDashboard.putData("ShootSequence DIST", new ShootSequence(true, shooter, feeder, hopper, intake, limeLight, led, log));
+    SmartDashboard.putData("ShootSequence DIST", new ShootSequence(true, shooter, feeder, hopper, intake, limeLightGoal, led, log));
     SmartDashboard.putData("ShootSequence STOP", new ShootSequenceStop(shooter, feeder, hopper, intake, led, log));
     SmartDashboard.putData("ShooterHood OPEN", new ShooterHoodPistonSequence(false, false, shooter, log));
     SmartDashboard.putData("ShooterHood CLOSE, LOCK", new ShooterHoodPistonSequence(true, true, shooter, log));
@@ -145,13 +146,13 @@ public class RobotContainer {
     SmartDashboard.putData("DriveBackward", new DriveSetPercentOutput(-0.4, -0.4, driveTrain, log));
     SmartDashboard.putData("DriveTurnLeft", new DriveSetPercentOutput(-0.4, 0.4, driveTrain, log));
     SmartDashboard.putData("DriveTurnRight", new DriveSetPercentOutput(0.4, -0.4, driveTrain, log));
-    SmartDashboard.putData("DriveStraightRel", new DriveStraight(3, TargetType.kRelative, 0.0, 2.66, 3.8, true, driveTrain, limeLight, log));
-    SmartDashboard.putData("DriveStraightAbs", new DriveStraight(3, TargetType.kAbsolute, 0.0, 2.66, 3.8, true, driveTrain, limeLight, log));
-    SmartDashboard.putData("DriveStraightVis", new DriveStraight(3, TargetType.kVision, 0.0, 2.66, 3.8, true, driveTrain, limeLight, log));
-    SmartDashboard.putData("Drive Vision Assist", new VisionAssistSequence(driveTrain, limeLight, log, shooter, feeder, led, hopper, intake));
-    SmartDashboard.putData("TurnVision", new DriveTurnGyro(TargetType.kVision, 0, 90, 200, false, 2, driveTrain, limeLight, log));
-    SmartDashboard.putData("TurnRelative", new DriveTurnGyro(TargetType.kRelative, 90, 90, 200, 1, driveTrain, limeLight, log));
-    SmartDashboard.putData("TurnAbsolute", new DriveTurnGyro(TargetType.kAbsolute, 90, 90, 200, 1, driveTrain, limeLight, log));
+    SmartDashboard.putData("DriveStraightRel", new DriveStraight(3, TargetType.kRelative, 0.0, 2.66, 3.8, true, driveTrain, limeLightGoal, log));
+    SmartDashboard.putData("DriveStraightAbs", new DriveStraight(3, TargetType.kAbsolute, 0.0, 2.66, 3.8, true, driveTrain, limeLightGoal, log));
+    SmartDashboard.putData("DriveStraightVis", new DriveStraight(3, TargetType.kVision, 0.0, 2.66, 3.8, true, driveTrain, limeLightGoal, log));
+    SmartDashboard.putData("Drive Vision Assist", new VisionAssistSequence(driveTrain, limeLightGoal, log, shooter, feeder, led, hopper, intake));
+    SmartDashboard.putData("TurnVision", new DriveTurnGyro(TargetType.kVision, 0, 90, 200, false, 2, driveTrain, limeLightGoal, log));
+    SmartDashboard.putData("TurnRelative", new DriveTurnGyro(TargetType.kRelative, 90, 90, 200, 1, driveTrain, limeLightGoal, log));
+    SmartDashboard.putData("TurnAbsolute", new DriveTurnGyro(TargetType.kAbsolute, 90, 90, 200, 1, driveTrain, limeLightGoal, log));
     SmartDashboard.putData("TurnCal Left Slow", new DriveTurnCalibrate(0.3, 35, 0.01, true, driveTrain, log));
     SmartDashboard.putData("TurnCal Right Slow", new DriveTurnCalibrate(0.3, 35, 0.01, false, driveTrain, log));
     SmartDashboard.putData("TurnCal Left Fast", new DriveTurnCalibrate(0.3, 10, 0.05, true, driveTrain, log));
@@ -166,12 +167,12 @@ public class RobotContainer {
     ) );
 
     // drive profile calibration buttons
-    SmartDashboard.putData("TurnGyroManual", new DriveTurnGyro(TargetType.kRelative, false, driveTrain, limeLight, log));
+    SmartDashboard.putData("TurnGyroManual", new DriveTurnGyro(TargetType.kRelative, false, driveTrain, limeLightGoal, log));
     SmartDashboard.putNumber("TurnGyro Manual Target Ang", 90);
     SmartDashboard.putNumber("TurnGyro Manual MaxVel", kMaxAngularVelocity*0.08);
     SmartDashboard.putNumber("TurnGyro Manual MaxAccel", kMaxAngularAcceleration);
     SmartDashboard.putNumber("TurnGyro Manual Tolerance", 2);
-    SmartDashboard.putData("DriveStraightManual", new DriveStraight(TargetType.kRelative, true, driveTrain, limeLight, log));
+    SmartDashboard.putData("DriveStraightManual", new DriveStraight(TargetType.kRelative, true, driveTrain, limeLightGoal, log));
     SmartDashboard.putNumber("DriveStraight Manual Target Dist", 2);
     SmartDashboard.putNumber("DriveStraight Manual Angle", 0);
     SmartDashboard.putNumber("DriveStraight Manual MaxVel", kMaxSpeedMetersPerSecond);
@@ -198,6 +199,11 @@ public class RobotContainer {
     autoChooser.addOption("BouncePath", AutoSelection.BOUNCE_PATH);
     autoChooser.addOption("SlalomPath", AutoSelection.SLALOM_PATH);
     autoChooser.addOption("BarrelRacing", AutoSelection.BARREL_RACING);
+    autoChooser.addOption("GalacticCamera", AutoSelection.GALACTIC_CAMERA);
+    autoChooser.addOption("GalacticRedA", AutoSelection.RED_A);
+    autoChooser.addOption("GalacticBlueA", AutoSelection.BLUE_A);
+    autoChooser.addOption("GalacticRedB", AutoSelection.RED_B);
+    autoChooser.addOption("GalacticBlueB", AutoSelection.BLUE_B);
     SmartDashboard.putData("Autonomous routine", autoChooser);
     SmartDashboard.putNumber("Autonomous delay", 0);
     SmartDashboard.putBoolean("Autonomous use vision", false);
@@ -244,13 +250,13 @@ public class RobotContainer {
     xb[4].whenReleased(new ShootSequence(true, shooter, feeder, hopper, intake, led, log)); // shoot with fixed RPM from trench
 
     // LB = 5, RB = 6
-    xb[5].whenHeld(new ShootSequenceSetup(false, shooter, limeLight, led, log)); // close shot setup
-    xb[5].whenReleased(new ShootSequence(shooter, feeder, hopper, intake, limeLight, led, log)); // shooting sequence
-    xb[6].whenHeld(new ShootSequenceSetup(true, shooter, limeLight, led, log)); // normal and far shot setup
-    xb[6].whenReleased(new ShootSequence(true, shooter, feeder, hopper, intake, limeLight, led, log)); // shooting sequence
+    xb[5].whenHeld(new ShootSequenceSetup(false, shooter, limeLightGoal, led, log)); // close shot setup
+    xb[5].whenReleased(new ShootSequence(shooter, feeder, hopper, intake, limeLightGoal, led, log)); // shooting sequence
+    xb[6].whenHeld(new ShootSequenceSetup(true, shooter, limeLightGoal, led, log)); // normal and far shot setup
+    xb[6].whenReleased(new ShootSequence(true, shooter, feeder, hopper, intake, limeLightGoal, led, log)); // shooting sequence
 
     // back = 7, start = 8 
-    xb[7].toggleWhenPressed(new LimeLightSetFlashlight(true, false, limeLight, log)); // run rollers out
+    xb[7].toggleWhenPressed(new LimeLightSetFlashlight(true, false, limeLightGoal, log)); // run rollers out
     xb[8].toggleWhenPressed(new IntakeSetPercentOutput(-1 * Constants.IntakeConstants.intakeDefaultPercentOutput, false, intake, log)); // run rollers out
 
     // left stick = 9, right stick = 10 (these are buttons when clicked)
@@ -286,8 +292,8 @@ public class RobotContainer {
     // right[1].whenPressed(new Wait(0));
 
     // joystick right button
-    left[2].whenHeld(new VisionAssistSequence(driveTrain, limeLight, log, shooter, feeder, led, hopper, intake));
-    right[2].whileHeld(new DriveTurnGyro(TargetType.kVision, 0, 150, 200, 1, driveTrain, limeLight, log)); // turn gyro with vision
+    left[2].whenHeld(new VisionAssistSequence(driveTrain, limeLightGoal, log, shooter, feeder, led, hopper, intake));
+    right[2].whileHeld(new DriveTurnGyro(TargetType.kVision, 0, 150, 200, 1, driveTrain, limeLightGoal, log)); // turn gyro with vision
     right[1].whenHeld(new DriveJogTurn(true,  driveTrain, log ));
     left[1].whenHeld(new DriveJogTurn(false,  driveTrain, log ));
   }
@@ -366,7 +372,8 @@ public class RobotContainer {
     autoDelay = SmartDashboard.getNumber("Autonomous delay", 0);
     autoDelay = (autoDelay < 0) ? 0 : autoDelay; // make sure autoDelay isn't negative
     autoDelay = (autoDelay > 15) ? 15 : autoDelay; // make sure autoDelay is only active during auto
-    return autoSelection.getAutoCommand(autoDelay, autoUseVision, autoChooser.getSelected(), driveTrain, shooter, feeder, hopper, intake, limeLight, log, led);
+    return autoSelection.getAutoCommand(autoDelay, autoUseVision, autoChooser.getSelected(), driveTrain, 
+      shooter, feeder, hopper, intake, limeLightGoal, limeLightBall, log, led);
   }
 
   /**
@@ -397,7 +404,7 @@ public class RobotContainer {
     disabledDisplayTimer.start();
 
     driveTrain.setDriveModeCoast(true);
-    limeLight.setSnapshot(false);
+    limeLightGoal.setSnapshot(false);
     shooter.setPowerCellsShot(0);
     shooter.setShooterVoltage(0);
     hopper.hopperSetPercentOutput(0);
@@ -436,8 +443,8 @@ public class RobotContainer {
     log.writeLogEcho(true, "Auto", "Mode Init");
     led.setStrip("Purple", 1);
     
-    limeLight.setFlashlight(false);
-    limeLight.setFlashlightAuto(true);
+    limeLightGoal.setFlashlight(false);
+    limeLightGoal.setFlashlightAuto(true);
     driveTrain.setDriveModeCoast(false);
     shooter.setShooterPID(1200);
 
@@ -459,8 +466,8 @@ public class RobotContainer {
     log.writeLogEcho(true, "Teleop", "Mode Init");
     led.setStrip("Red", 1);
 
-    limeLight.setFlashlight(false);
-    limeLight.setFlashlightAuto(true);
+    limeLightGoal.setFlashlight(false);
+    limeLightGoal.setFlashlightAuto(true);
     driveTrain.setDriveModeCoast(false);
     shooter.setShooterPID(1200);
   }
@@ -469,7 +476,7 @@ public class RobotContainer {
    * Method called once every scheduler cycle when teleop mode is initialized/enabled.
    */
   public void teleopPeriodic() {
-    if (limeLight.seesTarget()) {
+    if (limeLightGoal.seesTarget()) {
       setXBoxRumble(1.0);
     } else if (intake.intakeGetPercentOutput() == Math.abs(Constants.IntakeConstants.intakeDefaultPercentOutput)) {
       setXBoxRumble(0.4);

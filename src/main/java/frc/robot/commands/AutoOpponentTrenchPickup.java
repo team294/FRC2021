@@ -21,7 +21,7 @@ public class AutoOpponentTrenchPickup extends SequentialCommandGroup {
  
   // start robot infront of opponents trench with the intake facing the trench
 
-  public AutoOpponentTrenchPickup(double waitTime, boolean useVision, Trajectory trajectory, DriveTrain driveTrain, LimeLight limeLight, FileLog log, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LED led) {
+  public AutoOpponentTrenchPickup(double waitTime, boolean useVision, Trajectory trajectory, DriveTrain driveTrain, LimeLightGoal limeLight, FileLog log, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LED led) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(

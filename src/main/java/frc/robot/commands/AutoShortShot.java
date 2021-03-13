@@ -19,7 +19,7 @@ public class AutoShortShot extends SequentialCommandGroup {
   
   // start with back two wheels on the line and lined up right infront of target
 
-  public AutoShortShot(double waitTime, boolean useVision, DriveTrain driveTrain, LimeLight limeLight, FileLog log, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LED led) {
+  public AutoShortShot(double waitTime, boolean useVision, DriveTrain driveTrain, LimeLightGoal limeLight, FileLog log, Shooter shooter, Feeder feeder, Hopper hopper, Intake intake, LED led) {
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());
     addCommands(

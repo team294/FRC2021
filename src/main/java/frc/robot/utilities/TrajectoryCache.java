@@ -24,7 +24,7 @@ import frc.robot.Constants.DriveConstants;
 public class TrajectoryCache {
     private FileLog log;
    
-    private static int trajectoryCount = 9;
+    private static int trajectoryCount = 14;
     public Trajectory[] cache = new Trajectory[trajectoryCount];
 
     public enum TrajectoryType {
@@ -36,7 +36,12 @@ public class TrajectoryCache {
         bounceA6ToA9(5),
         bounceA9ToF(6),
         slalom(7),
-        barrelRacing(8);
+        barrelRacing(8),
+        galacticRedA(9),
+        galacticBlueA(10),
+        galacticRedB(11),
+        galacticBlueB(12),
+        galacticNull(13);
     
         @SuppressWarnings({"MemberName", "PMD.SingularField"})
         public final int value;
@@ -167,6 +172,41 @@ public class TrajectoryCache {
                     new Translation2d(7.62, 2.22)),
             new Pose2d(1.04, 2.54, new Rotation2d(Math.toRadians(180.0)))
         );
+        
+        cache[TrajectoryType.galacticRedA.value] = calcTrajectory("Galactic Red A", 0.4, 0.4, false, 
+            new Pose2d(0.762, 3.81, new Rotation2d(Math.toRadians(-45.0))),
+            List.of(new Translation2d(2.286, 2.286),
+                    new Translation2d(3.81, 1.524),
+                    new Translation2d(4.572, 3.81)),
+            new Pose2d(8.382, 3.81, new Rotation2d(Math.toRadians(0.0)))
+        );
+
+        cache[TrajectoryType.galacticBlueA.value] = calcTrajectory("Galactic Blue A", 0.4, 0.4, false, 
+            new Pose2d(0.762, 0.762, new Rotation2d(Math.toRadians(0.0))),
+            List.of(new Translation2d(4.572, 0.762),
+                    new Translation2d(5.334, 3.048),
+                    new Translation2d(6.858, 2.286)),
+            new Pose2d(8.382, 0.9, new Rotation2d(Math.toRadians(0.0)))
+        );
+
+        cache[TrajectoryType.galacticRedB.value] = calcTrajectory("Galactic Red B", 0.4, 0.4, false, 
+            new Pose2d(0.762, 3.81, new Rotation2d(Math.toRadians(-45.0))),
+            List.of(new Translation2d(2.286, 3.048),
+                    new Translation2d(3.81, 1.524),
+                    new Translation2d(5.334, 2.548)),
+            new Pose2d(8.382, 3.048, new Rotation2d(Math.toRadians(0.0)))
+        );
+
+        cache[TrajectoryType.galacticBlueB.value] = calcTrajectory("Galactic Blue B", 0.4, 0.4, false, 
+            new Pose2d(0.762, 0.762, new Rotation2d(Math.toRadians(0.0))),
+            List.of(new Translation2d(4.572, 1.524),
+                    new Translation2d(6.096, 3.048),
+                    new Translation2d(7.62, 1.524)),
+            new Pose2d(8.382, 0.762, new Rotation2d(Math.toRadians(-45.0)))
+        );
+
+        
+
     }
 
 

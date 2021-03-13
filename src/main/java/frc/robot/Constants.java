@@ -118,7 +118,20 @@ public final class Constants {
         public final int value;
         CoordType(int value) { this.value = value; }
     }
+    /**
+     * Options to select path for galactic search.
+     */
+    public enum SearchType {
+        kRedA(0),
+        kRedB(1),
+        kBlueA(2),
+        kBlueB(3),
+        kNull(4);
 
+        @SuppressWarnings({"MemberName", "PMD.SingularField"})
+        public final int value;
+        SearchType(int value) { this.value = value; }
+    }
     /**
      * Options to select driving target types.
      */

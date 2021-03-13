@@ -20,7 +20,7 @@ public class VisionAssistSequence extends SequentialCommandGroup {
    * Creates a new VisionAssistSequence.
    */
 
-  public VisionAssistSequence(DriveTrain driveTrain, LimeLight limeLight, FileLog log, Shooter shooter, Feeder feeder, LED led, Hopper hopper, Intake intake) {
+  public VisionAssistSequence(DriveTrain driveTrain, LimeLightGoal limeLight, FileLog log, Shooter shooter, Feeder feeder, LED led, Hopper hopper, Intake intake) {
     super();
     // Add your commands in the super() call, e.g.
     // super(new FooCommand(), new BarCommand());

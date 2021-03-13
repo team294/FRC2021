@@ -15,11 +15,11 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.utilities.FileLog;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.subsystems.LED;
-import frc.robot.subsystems.LimeLight;
+import frc.robot.subsystems.LimeLightGoal;
 
 public class ShooterSetPID extends CommandBase {
   private final Shooter shooter;
-  private LimeLight limeLight;
+  private LimeLightGoal limeLight;
   private LED led;
   private FileLog log;
   private double rpm;
@@ -76,7 +76,7 @@ public class ShooterSetPID extends CommandBase {
    * @param led led to use
    * @param log filelog utility
    */
-  public ShooterSetPID(boolean rpmFromDistance, boolean end, Shooter shooter, LimeLight limeLight, LED led, FileLog log) {
+  public ShooterSetPID(boolean rpmFromDistance, boolean end, Shooter shooter, LimeLightGoal limeLight, LED led, FileLog log) {
     this.shooter = shooter;
     this.limeLight = limeLight;
     this.led = led;
