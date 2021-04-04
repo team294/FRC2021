@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.SearchType;
 import frc.robot.utilities.FileLog;
 import frc.robot.utilities.StringUtil;
-import frc.robot.utilities.TrajectoryCache.TrajectoryType;
 import edu.wpi.first.networktables.NetworkTableEntry;
 
 
