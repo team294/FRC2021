@@ -31,6 +31,7 @@ import frc.robot.triggers.*;
 
 import static frc.robot.Constants.OIConstants.*;
 import static frc.robot.Constants.DriveConstants.*;
+import static frc.robot.Constants.ShooterConstants.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -242,12 +243,20 @@ public class RobotContainer {
     }
 
     // A = 1, B = 2, X = 3, Y = 4
-    xb[1].toggleWhenPressed(new IntakeSequence(intake, log)); // deploy intake and run rollers in
-    xb[2].whenHeld(new ShootSequenceSetup(false, shooter, led, log)); // autoline setup with fixed RPM
-    xb[2].whenReleased(new ShootSequence(false, shooter, feeder, hopper, intake, led, log)); // shoot with fixed RPM from autoline
-    xb[3].whenPressed(new IntakePistonSetPosition(false, intake, log)); // retract intake
-    xb[4].whenHeld(new ShootSequenceSetup(true, shooter, led, log)); // trench setup with fixed RPM
-    xb[4].whenReleased(new ShootSequence(true, shooter, feeder, hopper, intake, led, log)); // shoot with fixed RPM from trench
+    xb[1].whenHeld(new ShootSequenceSetup(false, shooter, limeLightGoal, led, log));
+    xb[1].whenReleased(new ShootSequence(shooter, feeder, hopper, intake, limeLightGoal, led, log));
+    xb[2].whenHeld(new ShootSequenceSetup(true, true, distanceFromTargetToRPMTable[3][1], shooter, limeLightGoal, led, log));
+    xb[2].whenReleased(new ShootSequence(distanceFromTargetToRPMTable[3][1], shooter, feeder, hopper, intake, led, log));
+    xb[3].whenHeld(new ShootSequenceSetup(true, false, distanceFromTargetToRPMTable[1][1], shooter, limeLightGoal, led, log));
+    xb[3].whenReleased(new ShootSequence(distanceFromTargetToRPMTable[1][1], shooter, feeder, hopper, intake, led, log));
+    xb[4].whenHeld(new ShootSequenceSetup(true, true, distanceFromTargetToRPMTable[2][1], shooter, limeLightGoal, led, log));
+    xb[4].whenReleased(new ShootSequence(distanceFromTargetToRPMTable[2][1], shooter, feeder, hopper, intake, led, log));
+    // xb[1].toggleWhenPressed(new IntakeSequence(intake, log)); // deploy intake and run rollers in
+    // xb[2].whenHeld(new ShootSequenceSetup(false, shooter, led, log)); // autoline setup with fixed RPM
+    // xb[2].whenReleased(new ShootSequence(false, shooter, feeder, hopper, intake, led, log)); // shoot with fixed RPM from autoline
+    // xb[3].whenPressed(new IntakePistonSetPosition(false, intake, log)); // retract intake
+    // xb[4].whenHeld(new ShootSequenceSetup(true, shooter, led, log)); // trench setup with fixed RPM
+    // xb[4].whenReleased(new ShootSequence(true, shooter, feeder, hopper, intake, led, log)); // shoot with fixed RPM from trench
 
     // LB = 5, RB = 6
     xb[5].whenHeld(new ShootSequenceSetup(false, shooter, limeLightGoal, led, log)); // close shot setup
@@ -264,9 +273,11 @@ public class RobotContainer {
     // xb[10].whenPressed(new Wait(0));
 
     // pov is the d-pad (up, down, left, right)
+    xbPOVDown.toggleWhenActive(new IntakeSequence(intake, log));
+    xbPOVLeft.whenActive(new IntakePistonSetPosition(false, intake, log));
     xbPOVUp.whenActive(new ShooterHoodPistonSequence(false, false, shooter, log)); // open the shooter hood
-    xbPOVDown.whenActive(new ShooterHoodPistonSequence(true, false, shooter, log)); // close and unlock shooter hood
-    xbPOVLeft.whenActive(new ShooterHoodPistonSequence(true, true, shooter, log)); // close and lock shooter hood
+    // xbPOVDown.whenActive(new ShooterHoodPistonSequence(true, false, shooter, log)); // close and unlock shooter hood
+    // xbPOVLeft.whenActive(new ShooterHoodPistonSequence(true, true, shooter, log)); // close and lock shooter hood
     xbPOVRight.whenActive(new IntakePistonSetPosition(true, intake, log));   // Deploy intake but do not start intake motors
     // xbPOVRight.whenActive(new Wait(0));
 
@@ -293,7 +304,7 @@ public class RobotContainer {
 
     // joystick right button
     left[2].whenHeld(new VisionAssistSequence(driveTrain, limeLightGoal, log, shooter, feeder, led, hopper, intake));
-    right[2].whileHeld(new DriveTurnGyro(TargetType.kVision, 0, 150, 200, 1, driveTrain, limeLightGoal, log)); // turn gyro with vision
+    right[2].whileHeld(new DriveTurnGyro(TargetType.kVision, 0, 50, 100, false, 2, driveTrain, limeLightGoal, log)); // turn gyro with vision
     right[1].whenHeld(new DriveJogTurn(true,  driveTrain, log ));
     left[1].whenHeld(new DriveJogTurn(false,  driveTrain, log ));
   }

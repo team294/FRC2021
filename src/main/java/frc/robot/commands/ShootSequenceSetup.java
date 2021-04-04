@@ -54,6 +54,42 @@ public class ShootSequenceSetup extends SequentialCommandGroup {
   }
 
   /**
+   * For at home skills challenge shooting
+   * Set the shooter hood position (open or close, lock or unlock).
+   * Then set the shooter RPM either with the distance from the target or the default short shot RPM.
+   * @param closeHood true = close the hood, false = open the hood
+   * @param rpm
+   * @param shooter shooter subsystem
+   * @param limeLightGoal limelight camera (subsystem)
+   * @param led led strip (subsystem)
+   */
+  public ShootSequenceSetup(boolean closeHood, boolean lock, int rpm, Shooter shooter, LimeLightGoal limeLight, LED led, FileLog log) {
+    addCommands(
+      // If the current distance away from the target is greater than the max distance for 
+      // unlocking the hood or vision sees no target, close and lock the hood. 
+      // Otherwise, close the hood and leave it unlocked.
+      new ConditionalCommand(
+        new ShooterHoodPistonSequence(closeHood, true, shooter, log),
+        new ShooterHoodPistonSequence(closeHood, false, shooter, log),
+        () -> closeHood && lock
+      ),
+      // If closing the hood, set shooter RPM based on distance.
+      // Otherwise, set shooter RPM to the default value for the short shot.
+      new ConditionalCommand(
+        parallel(
+          new FileLogWrite(false, false, "ShootSequence", "Setup", log, "Hood", "Close"),
+          new ShooterSetPID(false, rpm, shooter, led, log)
+        ),
+        parallel(
+          new FileLogWrite(false, false, "ShootSequence", "Setup", log, "Hood", "Open"),
+          new ShooterSetPID(ShooterConstants.shooterDefaultShortRPM, shooter, led, log)
+        ),
+        () -> closeHood
+      )
+    );
+  }
+
+  /**
    * Set shooter to setpoint RPM using default values for shooting from the trench
    * or the auto line and set the hood/lock position.
    * @param trench true = shooting from trench, false = shooting from autoline
