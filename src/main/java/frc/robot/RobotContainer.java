@@ -151,9 +151,9 @@ public class RobotContainer {
     SmartDashboard.putData("DriveStraightAbs", new DriveStraight(3, TargetType.kAbsolute, 0.0, 2.66, 3.8, true, driveTrain, limeLightGoal, log));
     SmartDashboard.putData("DriveStraightVis", new DriveStraight(3, TargetType.kVision, 0.0, 2.66, 3.8, true, driveTrain, limeLightGoal, log));
     SmartDashboard.putData("Drive Vision Assist", new VisionAssistSequence(driveTrain, limeLightGoal, log, shooter, feeder, led, hopper, intake));
-    SmartDashboard.putData("TurnVision", new DriveTurnGyro(TargetType.kVision, 0, 90, 200, false, 2, driveTrain, limeLightGoal, log));
-    SmartDashboard.putData("TurnRelative", new DriveTurnGyro(TargetType.kRelative, 90, 90, 200, 1, driveTrain, limeLightGoal, log));
-    SmartDashboard.putData("TurnAbsolute", new DriveTurnGyro(TargetType.kAbsolute, 90, 90, 200, 1, driveTrain, limeLightGoal, log));
+    SmartDashboard.putData("TurnVision", new DriveTurnGyro(TargetType.kVision, 0, 90, 100, true, 2, driveTrain, limeLightGoal, log));
+    SmartDashboard.putData("TurnRelative", new DriveTurnGyro(TargetType.kRelative, 90, 90, 100, 1, driveTrain, limeLightGoal, log));
+    SmartDashboard.putData("TurnAbsolute", new DriveTurnGyro(TargetType.kAbsolute, 90, 90, 100, 1, driveTrain, limeLightGoal, log));
     SmartDashboard.putData("TurnCal Left Slow", new DriveTurnCalibrate(0.3, 35, 0.01, true, driveTrain, log));
     SmartDashboard.putData("TurnCal Right Slow", new DriveTurnCalibrate(0.3, 35, 0.01, false, driveTrain, log));
     SmartDashboard.putData("TurnCal Left Fast", new DriveTurnCalibrate(0.3, 10, 0.05, true, driveTrain, log));
@@ -170,8 +170,8 @@ public class RobotContainer {
     // drive profile calibration buttons
     SmartDashboard.putData("TurnGyroManual", new DriveTurnGyro(TargetType.kRelative, false, driveTrain, limeLightGoal, log));
     SmartDashboard.putNumber("TurnGyro Manual Target Ang", 90);
-    SmartDashboard.putNumber("TurnGyro Manual MaxVel", kMaxAngularVelocity*0.08);
-    SmartDashboard.putNumber("TurnGyro Manual MaxAccel", kMaxAngularAcceleration);
+    SmartDashboard.putNumber("TurnGyro Manual MaxVel", 90);
+    SmartDashboard.putNumber("TurnGyro Manual MaxAccel", 100);
     SmartDashboard.putNumber("TurnGyro Manual Tolerance", 2);
     SmartDashboard.putData("DriveStraightManual", new DriveStraight(TargetType.kRelative, true, driveTrain, limeLightGoal, log));
     SmartDashboard.putNumber("DriveStraight Manual Target Dist", 2);
@@ -304,7 +304,7 @@ public class RobotContainer {
 
     // joystick right button
     left[2].whenHeld(new VisionAssistSequence(driveTrain, limeLightGoal, log, shooter, feeder, led, hopper, intake));
-    right[2].whileHeld(new DriveTurnGyro(TargetType.kVision, 0, 50, 100, false, 2, driveTrain, limeLightGoal, log)); // turn gyro with vision
+    right[2].whileHeld(new DriveTurnGyro(TargetType.kVision, 0, 90, 100, true, 1, driveTrain, limeLightGoal, log)); // turn gyro with vision
     right[1].whenHeld(new DriveJogTurn(true,  driveTrain, log ));
     left[1].whenHeld(new DriveJogTurn(false,  driveTrain, log ));
   }
