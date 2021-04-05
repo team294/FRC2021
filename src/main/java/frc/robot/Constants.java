@@ -200,10 +200,10 @@ public final class Constants {
         public static double kMaxAngularAcceleration = 200; // degrees per second per second 200 on competition bot
         public static double kVAngular = 0.00108; // 0.00108 calibrated on competition bot
         public static double kAAngular = 0.00015;  // 0.00015 calibrated on competition bot
-        public static double kSAngular = 0.056;   // 0.056 calibrated on competition bot
+        public static double kSAngular = 0.01;   // 0.056 calibrated on competition bot.  Reduced to 0.01 arbitrarily to reduce oscillation.
         public static double kPAngular = 0.001;   // 0.001 calibrated on competition bot (higher values get unstable)
         public static double kDAngular = 0;
-        public static double kIAngular = 0.01;    // 0.010 calibrated on competition bot (good for +/-2 degree accuracy, should not oscillate for +/-1 degree)
+        public static double kIAngular = 0.015;    // 0.010 calibrated on competition bot (good for +/-2 degree accuracy, should not oscillate for +/-1 degree).  Increased to 0.015 in parking lot.
         public static double tLagAngular = 0.020;          // Lag time to start/stop turning, or just one cycle forcast through scheduler
         public static final double maxSecondsForTurnGyro = 2.0; // max time to wait for turn gyro. use this in commands to timeout
 

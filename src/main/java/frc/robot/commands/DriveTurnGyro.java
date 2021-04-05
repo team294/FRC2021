@@ -49,7 +49,7 @@ public class DriveTurnGyro extends CommandBase {
 
   private TrapezoidProfileBCR tProfile; // wpilib trapezoid profile generator
   private TrapezoidProfileBCR.State tStateCurr; // initial state of the system (position in deg and time in sec)
-  private TrapezoidProfileBCR.State tStateNext; // next state of the system (next loop cycle) as calculated by the profile generator
+  private TrapezoidProfileBCR.State tStateNow; // next state of the system (next loop cycle) as calculated by the profile generator
   private TrapezoidProfileBCR.State tStateForecast; // state of the system in the future, as calculated by the profile generator
   private TrapezoidProfileBCR.State tStateFinal; // goal state of the system (position in deg and time in sec)
   private TrapezoidProfileBCR.Constraints tConstraints; // max vel (deg/sec) and max accel (deg/sec/sec) of the system
@@ -209,7 +209,7 @@ public class DriveTurnGyro extends CommandBase {
       }    
     }
     timeSinceStart = (double)(currProfileTime - profileStartTime) * 0.001;
-    tStateNext = tProfile.calculate(timeSinceStart);        // This is where the robot should be now
+    tStateNow = tProfile.calculate(timeSinceStart);        // This is where the robot should be now
     tStateForecast = tProfile.calculate(timeSinceStart + tLagAngular);  // This is where the robot should be next cycle (or farther in the future if the robot has lag or backlash)
 
     if(tProfile.isFinished(timeSinceStart) && targetType == TargetType.kVision){
@@ -218,35 +218,51 @@ public class DriveTurnGyro extends CommandBase {
       feedbackUsingVision = true;
     }
 
-    targetVel = tStateNext.velocity;
-    targetAccel = tStateNext.acceleration;
+    targetVel = tStateNow.velocity;
+    targetAccel = tStateNow.acceleration;
     double forecastVel = tStateForecast.velocity;
     double forecastAccel = MathUtil.clamp((forecastVel-targetVel)/tLagAngular, -maxAccel, maxAccel);    
 
-    if(!feedbackUsingVision){
+    if(!tProfile.isFinished(timeSinceStart)){
+      // Feed-forward percent voltage to drive motors
+      pFF = (forecastVel * kVAngular) + (forecastAccel * kAAngular);
       // Normal feedback for following trapezoid profile
-      pFB = MathUtil.clamp(pidAngVel.calculate(currVelocity, targetVel) + kIAngular * (tStateNext.position - currAngle), -0.1, 0.1);
+      pFB = MathUtil.clamp(pidAngVel.calculate(currVelocity, targetVel) + kIAngular * (tStateNow.position - currAngle), -0.1, 0.1);
     } else {
-      // Live camera feedback
-      pFB = kIAngular * driveTrain.normalizeAngle(limeLight.getXOffset());
+      // We are past the end of the trapezoid profile
+      forecastVel = 0.0;
+      forecastAccel = 0.0;
+      pFF = 0.0;
+
+      if (targetType == TargetType.kVision) {
+        // Live camera feedback
+        // TODO make the fixed pFB speed below (0.04) a constant.  Increase value slowly if the robot is not moving.
+        pFB = 0.04 * Math.signum( driveTrain.normalizeAngle(limeLight.getXOffset()) );
+      } else {
+        // Bang-bang control
+        // TODO make the fixed pFB speed below (0.04) a constant.  Increase value slowly if the robot is not moving.
+        pFB = 0.04 * Math.signum( targetRel - currAngle );
+      }
     }
     
-    // Feed-forward percent voltage to drive motors
-    pFF = (forecastVel * kVAngular) + (forecastAccel * kAAngular);
+    // Use kS to account for dead band
     pDB = kSAngular * Math.signum(pFF + pFB);
 
     driveTrain.setLeftMotorOutput(-pFF - pFB - pDB);
     driveTrain.setRightMotorOutput(+pFF + pFB + pDB);
 
     if (regenerate) {
-      tStateCurr = new TrapezoidProfileBCR.State(currAngle, currVelocity);
-      // tStateCurr = new TrapezoidProfileBCR.State(currAngle, targetVel);
-      tProfile = new TrapezoidProfileBCR(tConstraints, tStateFinal, tStateCurr);
+      // tStateCurr = new TrapezoidProfileBCR.State(currAngle, currVelocity);
+      // tStateCurr = new TrapezoidProfileBCR.State(currAngle, targetVel);  
+      // tProfile = new TrapezoidProfileBCR(tConstraints, tStateFinal, tStateCurr);
+
+      // When regenerating using tStateNow, the profile only changes if the final state has moved (such as due to vision)
+      tProfile = new TrapezoidProfileBCR(tConstraints, tStateFinal, tStateNow);
       profileStartTime = currProfileTime;
     }
 
     log.writeLog(false, "DriveTurnGyro", "profile", "target", targetRel, 
-      "posT", tStateNext.position, "velT", targetVel, "accT", targetAccel,
+      "posT", tStateNow.position, "velT", targetVel, "accT", targetAccel,
       "posF", tStateForecast.position, "velF", forecastVel, "accF", forecastAccel,
       "posA", currAngle, "velAWheel", currVelocity, "velAGyro", currVelocityGyro, "pFF", pFF, "pFB", pFB, "pTotal", pFF+pFB+pDB, "LL x", limeLight.getXOffset(), "LL y", limeLight.getYOffset());
     
